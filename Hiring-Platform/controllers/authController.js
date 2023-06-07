@@ -38,6 +38,7 @@ const signup = async (req, res) => {
 }
 
 const signin = async (req, res) => {
+
     
     try { 
 
@@ -62,7 +63,7 @@ const signin = async (req, res) => {
     let accessToken = jwt.sign({ id: user._id }, secretKey, {
         expiresIn:87500
     })
-
+     
     res.status(200).send({
         firstName: user.firstName,
         lastName: user.lastName,

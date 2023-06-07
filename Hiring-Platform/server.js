@@ -33,7 +33,8 @@ dbConnection.once("open",()=> {
 // import all the routes ;
 
 require("./routes/authRoutes")(expressApp);
-require("./routes/jobsRoute")(expressApp)
+require("./routes/jobsRoute")(expressApp);
+require("./routes/userRoutes")(expressApp);
 
 // landing page of server
 expressApp.get("/", (req, res) => {
@@ -48,6 +49,7 @@ let createAdmin = async () => {
     let isAdminExist = await UserModel.findOne({
         role:"ADMIN"
     })
+   
     if (isAdminExist) {
         console.log("admin already exist")
         return

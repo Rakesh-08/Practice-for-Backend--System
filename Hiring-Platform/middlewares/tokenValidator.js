@@ -46,8 +46,28 @@ let isCompany = async (req, res, next) => {
     
 }
 
+
+let isAdmin = async (req, res, next) => {
+
+    let admin = await UserModel.findOne({
+        _id: req._id,
+        role: constants.roles.admin
+    })
+ 
+
+    if (!admin) {
+        return res.status(401).send({
+            message: "unauthorised ! only admins can access this route"
+        })
+    }
+
+    next();
+
+}
+
 module.exports = {
     verifyToken,
-    isCompany
+    isCompany,
+    isAdmin
 }
 

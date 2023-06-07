@@ -1,6 +1,7 @@
 let jobsModel = require("../models/JobsModel");
 let UserModel = require("../models/UserModel");
-let constants = require("../utils/constants")
+let constants = require("../utils/constants");
+let {applicantsLessJobs }= require("../utils/secureResponse")
 
 
 let createJobs = async (req, res) => {
@@ -17,7 +18,10 @@ let createJobs = async (req, res) => {
         id:job._id,
         title: req.body.title,
         description: req.body.description,
-        companyId: req._id
+        companyId: req._id,
+        createdAt: job.createdAt,
+        updatedAt:job.updatedAt
+
     })
     } catch (err) {
         res.status(500).send({
@@ -34,8 +38,6 @@ let updateJobById = async (req, res) => {
     let job = await jobsModel.findOne({
     _id:req.params.JobId
     })
-
-   
 
     let editable = ["title", "description", "applicants"];
 
@@ -82,8 +84,13 @@ let updateJobById = async (req, res) => {
         new: true
     })
 
-    if (updatedResult) {
-        res.status(200).send(updatedResult)
+        if (updatedResult) {
+        
+            if (user.role == constants.roles.student) {
+                res.status(200).send(applicantsLessJobs([updatedResult]))
+            } else {
+                res.status(200).send(app)
+            }
     } else {
         res.status(400).send({
             message:"There is no job left after update"
@@ -146,11 +153,7 @@ let getAllJobs = async (req, res) => {
             applicants: req._id
 
         })
-
-        response.forEach(job => {
-            delete job.applicants
-            
-        });
+        response= applicantsLessJobs(response)
 
     } else if (userStatus == constants.roles.company) {
         response = await jobsModel.find({
@@ -192,19 +195,14 @@ let getJobById = async (req, res) => {
         })
     }
 
-    if (job.companyId == req._id || job.applicants.includes(req._id)) {
+        if (job.applicants.includes(req._id)) { 
             
-        if (job.companyId == req._id) {
+            res.status(200).send(applicantsLessJobs([job]))
+            
+        } else if (job.companyId == req._id) {
             res.status(200).send(job)
-        } else {
-            delete job.applicants
-        }
-
-    } else {
-        res.status(401).send({
-            message: "Unauthorised ! you don't have access to see this job"
-        })
-        }
+        } 
+    
         
 } catch (err) {
         res.status(500).send({
