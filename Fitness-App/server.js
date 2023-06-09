@@ -24,8 +24,12 @@ let expressApp = express();
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
 
+// import the routes
 
-
+require("./routes/authRoutes")(expressApp);
+require("./routes/hospitalRoutes")(expressApp);
+require("./routes/doctorRoutes")(expressApp);
+require("./routes/userRoutes")(expressApp);
 
 expressApp.listen(PORT, () => {
     console.log("your server is up and running at " + PORT)
