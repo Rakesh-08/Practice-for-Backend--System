@@ -20,13 +20,24 @@ let doctorSchema = new mongoose.Schema({
         required: true
     },
     practicingAt: {
-        type: [mongoose.SchemaTypes.ObjectId],
+        type: [String],
         required: true,
         ref:"hospitals"
     },
     experience: {
         type: Number,
         required:true,
+    },
+
+    createdAt: {
+        type: Date,
+        immutable: true,
+        default: () => Date.now()
+
+    },
+    updatedAt: {
+        type: Date,
+        default: () => Date.now()
     }
 
 

@@ -1,13 +1,12 @@
 
-
 module.exports = (app) => {
-    
 
-    app.update();
-    app.get();
-    app.get();
-    app.delete();
+
+    app.post("/fitnessApp/api/v1");
+    app.update("/fitnessApp/api/v1");
+    app.delete("/fitnessApp/api/v1");
+    app.get("/fitnessApp/api/v1");
+    app.get("/fitnessApp/api/v1")
 }
-
 
 
