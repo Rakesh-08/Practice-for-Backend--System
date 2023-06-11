@@ -10,7 +10,7 @@ let bodyParser = require('body-parser');
 let expressApp = express();
 
 expressApp.use(bodyParser.json());
-expressApp(bodyParser.urlencoded({extended:true}))
+expressApp.use(bodyParser.urlencoded({extended:true}))
 
 // mongodb establishment
 
@@ -25,6 +25,11 @@ dbConnection.once("open", () => {
     console.log("connected to mongodb database")
 })
 
+
+// import the routes
+
+require("./routes/userRoutes")(expressApp);
+require("./routes/locationRoutes")(expressApp)
 
 
 expressApp.listen(serverConfig.PORT, () => {
