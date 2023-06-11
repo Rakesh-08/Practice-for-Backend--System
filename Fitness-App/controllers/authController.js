@@ -52,7 +52,7 @@ let signin = async (req, res) => {
         })
     }
     
-    let accessToken = jwt.sign({ id: user.userId }, authConfig.secretKey, { expiresIn: 84599 });
+    let accessToken = jwt.sign({ id: user._id }, authConfig.secretKey, { expiresIn: 84599 });
      user.accessToken= accessToken
 
     res.status(200).send(passwordLessUser([user]))

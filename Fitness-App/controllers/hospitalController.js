@@ -72,7 +72,7 @@ let updateHospital = async (req, res) => {
             })
         }
 
-        if (hospital.userId !== req.userId) {
+        if (hospital._id !== req._id) {
             return res.status(401).send({
                 message: "Unauthorised ! you are not allowed to access this route"
             })
@@ -101,7 +101,7 @@ let getAllHospitals = async (req, res) => {
     try {
         let hospitals = await hospitalModel.find({})
 
-        if (hospitals) {
+        if (hospitals.length>0) {
             res.status(200).send(passwordLessUser(hospitals))
         } else {
             res.status(200).send({
@@ -151,7 +151,7 @@ let deleteHospital = async (req, res) => {
             })
         }
 
-        if (hospital.userId !== req.userId) {
+        if (hospital._id !== req._id) {
             return res.status(401).send({
                 message: "Unauthorised ! you are not allowed to access this route"
             })

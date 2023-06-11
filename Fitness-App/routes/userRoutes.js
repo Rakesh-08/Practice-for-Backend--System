@@ -3,10 +3,10 @@
 module.exports = (app) => {
     
 
-    app.update();
-    app.get();
-    app.get();
-    app.delete();
+    app.put("/");
+    app.get("/");
+    app.get("/");
+    app.delete("/");
 }
 
 

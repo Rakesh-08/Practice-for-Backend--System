@@ -19,6 +19,7 @@ let doctorSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    
     practicingAt: {
         type: [mongoose.SchemaTypes.ObjectId],
         required: true,
