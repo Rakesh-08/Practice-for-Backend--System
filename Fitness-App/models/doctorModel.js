@@ -26,7 +26,7 @@ let doctorSchema = new mongoose.Schema({
         ref:"hospitals"
     },
     experience: {
-        type: Number,
+        type: String,
         required:true,
     }
 

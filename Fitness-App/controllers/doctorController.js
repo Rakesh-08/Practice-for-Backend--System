@@ -7,10 +7,11 @@ let createDoctor = async (req, res) => {
 
         let ObjectPassed = req.body;
 
-        ObjectPassed.practicingAt= [req._id]
-
+        ObjectPassed.practicingAt = [req._id]
+       
+         
         let doctor = await doctorModel.create(ObjectPassed)
-
+      
         if (doctor) {
             res.status(200).send({
                 ...ObjectPassed,
@@ -22,6 +23,7 @@ let createDoctor = async (req, res) => {
              
         
     } catch (err) {
+        console.log(err)
         res.status(500).send({
             message:"some internal server error occurred"
         })
@@ -89,7 +91,7 @@ let getAllDoctors = async (req, res) => {
 let getDoctorById = async (req, res) => {
     try {
         let doctor = await doctorModel.findOne({
-            _id:req._id
+            _id:req.params.doctorId
         })
         if (!doctor) {
             return res.status(400).send({
@@ -111,16 +113,30 @@ let deleteDoctor = async (req, res) => {
             _id: req.params.doctorId
         })
 
+      
         if (!doctor.practicingAt.includes(req._id)) {
             return res.status(401).send({
                 message: "unauthorised request by different hospital"
             })
         }
 
-       doctor= doctor.practicingAt.filter(hospId=>hospId!==req._id)
-        await doctor.save();
+        if (doctor.practicingAt.length > 0) {
+       
+            let indexOf = doctor.practicingAt.indexOf(req._id)
+            doctor.practicingAt.splice(indexOf, 1)
+        
+            await doctor.save();
 
-        if (doctor.length > 0) {
+        }
+
+        if (doctor.practicingAt.length == 0) {
+            await doctorModel.deleteOne({
+                   _id:req.params.doctorId
+               })
+        }
+       
+
+        if (!doctor.practicingAt.includes(req._id)) {
             res.status(200).send({
                 message:`doctor with id ${req.params.doctorId} has been removed from your hospital`
             })

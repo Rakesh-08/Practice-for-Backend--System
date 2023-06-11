@@ -52,7 +52,7 @@ let signinAsHospital = async (req, res) => {
         })
     }
 
-    let accessToken = jwt.sign({ id: hospital.userId }, authConfig.secretKey, { expiresIn: 84599 });
+    let accessToken = jwt.sign({ id: hospital._id }, authConfig.secretKey, { expiresIn: 84599 });
     hospital.accessToken = accessToken
 
     res.status(200).send(passwordLessUser([hospital]))
@@ -72,7 +72,7 @@ let updateHospital = async (req, res) => {
             })
         }
 
-        if (hospital._id !== req._id) {
+        if (req.params.hospitalId !== req._id) {
             return res.status(401).send({
                 message: "Unauthorised ! you are not allowed to access this route"
             })

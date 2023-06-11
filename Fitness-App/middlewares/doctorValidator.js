@@ -61,7 +61,7 @@ module.exports.doctorValidator = async (req, res, next) => {
     }
 
     // for experience
-    if (!experience) {
+    if (!req.body.experience) {
         return res.status(400).send({
             message:"please tell us your experience in this field"
         })
@@ -76,7 +76,7 @@ module.exports.IsHospital = async (req, res, next) => {
         _id: req._id
     })
 
-    if (IsHospital.hospitalEmail == undefined) {
+    if ( !IsHospital ) {
         return res.status(401).send({
             message: "unauthorised request by the user"
         })
