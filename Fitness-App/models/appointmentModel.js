@@ -6,35 +6,24 @@ let appointmentsSchema = new mongoose.Schema({
     hospitalName: {
         type: String,
         required: true,
-        ref:"hospitals"
+        ref: "hospitals"
     },
-  department: {
+    department: {
         type: String,
         required: true,
-        
-    },
-    appointmentDate: {
-        type: Date,
-        required: true,
-        default:()=>Date.now()
-    },
-    timing: {
-        type: Date,
-        required:true
+
     },
 
-    appointmentName: {
-        type: String,
-        required: true,
-        ref:"users"
+    appointment: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "users"
     }
     ,
     status: {
         type: String,
-        required: true,
-        default:"OPEN"
+        default: "OPEN"
     },
-    updatedAt: {
+     appointmentDate: {
         type: Date,
         default: () => Date.now()
     }
