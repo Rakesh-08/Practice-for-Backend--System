@@ -31,6 +31,7 @@ require("./routes/hospitalRoutes")(expressApp);
 require("./routes/doctorRoutes")(expressApp);
 require("./routes/userRoutes")(expressApp);
 require("./routes/appointmentRoutes")(expressApp);
+require("./routes/recordsRoutes")(expressApp)
 
 expressApp.listen(PORT, () => {
     console.log("your server is up and running at " + PORT)

@@ -1,6 +1,7 @@
 let userModel = require("../models/userModel");
 let hospitalModel = require("../models/hospitalModel");
-let appointmentModel= require("../models/appointmentModel")
+let appointmentModel = require("../models/appointmentModel");
+let symptomsModel= require("../models/symptomsModel")
 
 let bookAppointment = async (req, res) => {
     try {
@@ -9,12 +10,26 @@ let bookAppointment = async (req, res) => {
  
         if (requester) {
             return res.status(401).send({
-                message:"unauthorised request by some hospital"
+                message:"unauthorised request by hospital "
             })
         }
 
-        let ObjectPassed = req.body;
-        ObjectPassed.appointment = req._id
+        let ObjectPassed = {};
+        let {hospitalName,department,symptomsType,duration,symptomsInfo }= req.body
+         
+        // create symptoms
+
+        let symptoms = await symptomsModel.create({
+            symptomsType: symptomsType,
+            duration: duration,
+            symptomsInfo: symptomsInfo
+
+        })
+
+        ObjectPassed.hospitalName = hospitalName;
+        ObjectPassed.department = department;;
+        ObjectPassed.appointment = req._id;
+        ObjectPassed.symptoms= symptoms._id
         
         let createAppointment = await appointmentModel.create(ObjectPassed)
         

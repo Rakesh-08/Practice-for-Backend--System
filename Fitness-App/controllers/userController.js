@@ -1,5 +1,6 @@
 let userModel = require("../models/userModel");
 let trackRecordsModel= require('../models/trackRecords')
+let passwordLessUser= require("../utils/secureResponse")
 
 let updateUser = async (req, res) => {
     try {
@@ -17,7 +18,7 @@ let updateUser = async (req, res) => {
         }, update, { new: true })
         
         if (updatedResponse) {
-            res.status(200).send(updatedResponse)
+            res.status(200).send(passwordLessUser([updatedResponse]))
         }
 
         
@@ -74,7 +75,7 @@ let getAllUsers = async (req, res) => {
         })
 
         if (users.length > 0) {
-            res.status(200).send(users)
+            res.status(200).send(passwordLessUser(users))
         } else {
             res.status(200).send({
                 message:"no users to show for your hospital"
@@ -109,7 +110,7 @@ let getUserById = async (req, res) => {
 
 
         if (user) {
-            res.status(200).send(user)
+            res.status(200).send(passwordLessUser([user]))
         } else {
             res.status(400).send({
                 message:"user with given id doesn't exist "

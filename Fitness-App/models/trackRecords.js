@@ -6,28 +6,26 @@ let trackRecordSchema = new mongoose.Schema({
     patient: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
-        unique: true,
         ref:"users"
     },
     hospital: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
-        unique: true,
         ref: "hospitals"
     },
     doctorAttended: {
-        type: mongoose.SchemaTypes.ObjectId,
+        type: [mongoose.SchemaTypes.ObjectId],
         required: true,
         ref:"doctors"
     },
     prescription:{
-        type: String,
+        type: [mongoose.SchemaTypes.ObjectId],
         required: true,
         ref:"prescriptions"
         
     },
     symptoms: {
-        type: String,
+        type: [mongoose.SchemaTypes.ObjectId],
         required: true,
         ref:"symptoms"
     },

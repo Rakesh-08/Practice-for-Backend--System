@@ -67,6 +67,12 @@ module.exports.doctorValidator = async (req, res, next) => {
         })
     }
 
+    if (!req.body.department) {
+        return res.status(400).send({
+            message:"please pass the department name he works"
+        })
+    }
+
     next();
 }
 

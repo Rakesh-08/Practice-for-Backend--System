@@ -8,12 +8,12 @@ let symptomsSchema = new mongoose.Schema({
         required:true
     },
     duration: {
-        type: Number,
+        type: String,
         required:true
     },
     symptomsInfo: {
         type: String,
-        required:info
+        required:true
     },
 
 

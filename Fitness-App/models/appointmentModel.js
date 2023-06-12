@@ -13,6 +13,10 @@ let appointmentsSchema = new mongoose.Schema({
         required: true,
 
     },
+    symptoms: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref:"symptoms"
+    },
 
     appointment: {
         type: mongoose.SchemaTypes.ObjectId,

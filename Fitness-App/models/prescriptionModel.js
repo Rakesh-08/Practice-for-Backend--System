@@ -4,7 +4,7 @@ let mongoose = require("mongoose");
 let prescriptionSchema = new mongoose.Schema({
 
     
-    prescriptionName: {
+    prescription: {
         type: String,
         required:true
     },
@@ -14,7 +14,7 @@ let prescriptionSchema = new mongoose.Schema({
     },
     prescribedDoctor: {
         type: String,
-        required:true
+        ref:"doctors"
     },
     createdAt: {
         type: Date,
