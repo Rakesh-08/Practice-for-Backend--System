@@ -44,6 +44,7 @@ let signin = async (req, res) => {
     })
     }
     
+   
     let isCorrectPassword = bcrypt.compareSync(req.body.password, user.password)
     
     if (!isCorrectPassword) {

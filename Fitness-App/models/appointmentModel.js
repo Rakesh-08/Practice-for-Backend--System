@@ -30,7 +30,11 @@ let appointmentsSchema = new mongoose.Schema({
      appointmentDate: {
         type: Date,
         default: () => Date.now()
-    }
+    },
+    updatedAt: {
+        type: Date,
+        default:()=>Date.now()
+     }
 
 
 

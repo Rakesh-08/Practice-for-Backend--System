@@ -9,9 +9,14 @@ let createRecord = async (req, res) => {
 
         let { statusReport, appointmentId, prescription, dosage } = req.body
 
+        let hospital = await hospitalModel.findOne({
+            _id:req._id
+        })
+
         let booking = await appointmentModel.findOne({
             _id: appointmentId,
-            status: "OPEN"
+            status: "OPEN",
+            hospitalName:hospital.hospitalName
         })
 
         if (!booking) {
@@ -24,16 +29,16 @@ let createRecord = async (req, res) => {
         await booking.save();
   
         let record = await recordsModel.findOne({
-            patient: booking.appointment
+            patient: booking.appointment.toString()
         })
       
         
         let doctor = await doctorModel.findOne({
-            department: booking.department
+            department: booking.department.toString()
         })
 
         if (!doctor) {
-            doctor = { _id: "To Be Assigned" }
+            doctor = { _id: req._id }
         }
 
         let medicalAdvice = await prescriptionModel.create({
@@ -44,7 +49,7 @@ let createRecord = async (req, res) => {
 
         // if there is another appointment for the same patient then ....
         
-        if (record && record.hospital == req._id) {
+        if (record && record.hospital.toString() == req._id) {
 
             record.doctorAttended.push(doctor._id);
             record.symptoms.push(booking.symptoms);
@@ -56,7 +61,7 @@ let createRecord = async (req, res) => {
         }
 
         let createObject = {
-            patient: booking.appointment,
+            patient: booking.appointment.toString(),
             hospital: req._id,
             doctorAttended: [doctor._id],
             symptoms: [booking.symptoms],
@@ -69,7 +74,7 @@ let createRecord = async (req, res) => {
 
         if (createRecord) {
             res.status(200).send({
-                _id:record._id,
+                _id:createRecord._id,
                 ...createObject,
                 createdAt: record.createdAt,
                  updatedAt:record.updatedAt
@@ -98,7 +103,7 @@ let updateRecord = async (req, res) => {
             })
         }
 
-        if (record.hospital !== req._id) {
+        if (record.hospital.toString() !== req._id) {
             return res.status(401).send({
                 message:"Unauthorised request by different hospital"
             })
@@ -134,7 +139,7 @@ let deleteRecord = async (req, res) => {
             })
         }
 
-        if (record.hospital !== req._id) {
+        if (record.hospital.toString() !== req._id) {
             return res.status(401).send({
                 message: "Unauthorised request by different hospital"
             })
@@ -163,6 +168,13 @@ let getRecordById = async (req, res) => {
         let record = await recordsModel.findOne({
             _id:req.params.recordId
         })
+        
+        if (!record) {
+            return res.status(400).send({
+                message:"no record exist for this id"
+            })
+        }
+
 
         if (!(record.patient == req._id || record.hospital == req._id)) {
             return res.status(401).send({

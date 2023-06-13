@@ -14,5 +14,5 @@ module.exports = (app) => {
     app.put("/fitnessApp/api/v1/records/:recordId",[tokenVerification,IsHospital],updateRecord)
     app.delete("/fitnessApp/api/v1/records/:recordId",[tokenVerification,IsHospital],deleteRecord)
     app.get("/fitnessApp/api/v1/records",tokenVerification,getAllRecords)
-    app.get("/fitnessApp/api/v1/records?:recordId",tokenVerification,getRecordById)
+    app.get("/fitnessApp/api/v1/records/:recordId",tokenVerification,getRecordById)
 }

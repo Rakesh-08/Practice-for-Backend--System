@@ -1,5 +1,5 @@
 
-module.exports = async (req, res) => {
+module.exports = async (req, res,next) => {
     
     if (!req.body.appointmentId) {
         return res.status(400).send({

@@ -13,6 +13,6 @@ module.exports = (app) => {
     app.put("/fitnessApp/api/v1/appointment/:appointmentId",tokenVerification,updateAppointment);
     app.get("/fitnessApp/api/v1/appointment/:appointmentId",tokenVerification,getAppointmentById);
     app.get("/fitnessApp/api/v1/appointments",tokenVerification,getAllAppointments);
-    app.delete("/fitnessApp/api/v1/appointment",tokenVerification,deleteAppointment)
+    app.delete("/fitnessApp/api/v1/appointment/:appointmentId",tokenVerification,deleteAppointment)
 }
 

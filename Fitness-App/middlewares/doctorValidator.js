@@ -84,7 +84,7 @@ module.exports.IsHospital = async (req, res, next) => {
 
     if ( !IsHospital ) {
         return res.status(401).send({
-            message: "unauthorised request by the user"
+            message: "unauthorised request ! this is permitted to the users signed as hospital"
         })
     }
     next()

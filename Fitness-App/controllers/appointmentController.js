@@ -92,16 +92,17 @@ let updateAppointment = async (req, res) => {
 let deleteAppointment = async (req, res) => {
     
     try {
-
+           
         let booking = await appointmentModel.findOne({ _id: req.params.appointmentId });
-
+ 
         if (!booking) {
             return res.status(400).send({
                 message:"invalid appointment id , no appointment exist"
             })
         }
-
-        if (booking && booking.appointment !== req._id) {
+        
+ 
+        if ( booking.appointment.toString() !== req._id) {
             return res.status(401).send({
                 message:"Unauthorised request by the user"
             })
@@ -109,7 +110,7 @@ let deleteAppointment = async (req, res) => {
 
         let removed = await appointmentModel.deleteOne({ _id: req.params.appointmentId })
         
-        if (removed.deleteCount > 0) {
+        if (removed.deletedCount>0) {
         
             res.status(200).send({
                 ...removed, message: `appointment with id ${req.params.appointmentId} has been removed`
@@ -174,6 +175,12 @@ let getAppointmentById = async (req, res) => {
         let hospital = await hospitalModel.findOne({
             hospitalName: booking.hospitalName
         })
+
+        if (!(hospital || booking)) {
+            return res.status(400).send({
+                message:"please provide valid appointment id"
+            })
+        }
 
         if (!(req._id == booking.appointment || req._id == hospital._id)) {
             return res.status(401).send({
