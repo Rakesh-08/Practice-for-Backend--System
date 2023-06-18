@@ -1,5 +1,6 @@
 
- let userModel= require("../models/userModel")
+let userModel = require("../models/userModel")
+let hospitalModel = require("../models/hospitalModel");
 let bcrypt = require("bcryptjs");
 let jwt = require("jsonwebtoken");
 let passwordLessUser=require("../utils/secureResponse");
@@ -33,19 +34,26 @@ let signUp = async (req, res) => {
 }
 
 let signin = async (req, res) => {
-    
+    try {
+        
     let user = await userModel.findOne({
         userId:req.body.userId
     })
+    let hospital = await hospitalModel.findOne({
+        userId: req.body.userId
+    })
 
-    if (!user) {
+    let client= user || hospital
+
+
+    if (!client) {
         return res.status(400).send({
-        message:"user doesn't exits"
+        message:"user/hospital doesn't exits"
     })
     }
     
    
-    let isCorrectPassword = bcrypt.compareSync(req.body.password, user.password)
+    let isCorrectPassword = bcrypt.compareSync(req.body.password, client.password)
     
     if (!isCorrectPassword) {
         res.status(400).send({
@@ -53,10 +61,17 @@ let signin = async (req, res) => {
         })
     }
     
-    let accessToken = jwt.sign({ id: user._id }, authConfig.secretKey, { expiresIn: 84599 });
-     user.accessToken= accessToken
+    let accessToken = jwt.sign({ id: client._id }, authConfig.secretKey, { expiresIn: 84599 });
+     client.accessToken= accessToken
 
-    res.status(200).send(passwordLessUser([user]))
+        res.status(200).send(passwordLessUser([client]))
+        
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({
+            message: "some internal server error occurred"
+        })
+    }
 }
 
 module.exports = {

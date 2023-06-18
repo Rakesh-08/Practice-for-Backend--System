@@ -32,31 +32,6 @@ let signUpAsHospital = async (req, res) => {
     }
 }
 
-let signinAsHospital = async (req, res) => {
-
-    let hospital = await hospitalModel.findOne({
-        userId: req.body.userId
-    })
-
-    if (!hospital) {
-        res.status(400).send({
-            message: "there is not hospital with this given userId "
-        })
-    }
-
-    let isCorrectPassword = bcrypt.compareSync(req.body.password, hospital.password)
-
-    if (!isCorrectPassword) {
-        res.status(400).send({
-            message: "Failed! incorrect password"
-        })
-    }
-
-    let accessToken = jwt.sign({ id: hospital._id }, authConfig.secretKey, { expiresIn: 84599 });
-    hospital.accessToken = accessToken
-
-    res.status(200).send(passwordLessUser([hospital]))
-}
 
 let updateHospital = async (req, res) => {
 
@@ -171,7 +146,6 @@ let deleteHospital = async (req, res) => {
 
 module.exports = {
     signUpAsHospital,
-    signinAsHospital,
     updateHospital,
     getAllHospitals,
     getHospitalById,
