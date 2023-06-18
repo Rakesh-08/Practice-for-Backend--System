@@ -1,0 +1,18 @@
+.authBox{
+    background-color: whitesmoke;
+   min-width: 28vw;
+    border-radius: 5%;
+    border:2px solid black;
+    padding:2em;
+}
+
+.link:hover{
+   color:rgb(58, 106, 196);
+   transform: scale(1.1);
+   text-decoration: underline;
+}
+
+
+
+
+
