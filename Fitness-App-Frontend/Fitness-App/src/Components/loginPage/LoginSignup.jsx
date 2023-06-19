@@ -118,7 +118,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
     return (
       <div className="bg-dark vh-100 d-flex justify-content-center align-items-center">
         <div className="authBox">
-          <h4 className="text-center my-2">
+          <h4 className="text-center my-2 text-info">
             {" "}
             {showSignup ? labels.signupTitle : "Login"}
           </h4>

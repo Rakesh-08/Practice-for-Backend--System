@@ -4,6 +4,7 @@ let mongoose = require("mongoose");
 let { DB_Name, DB_URL } = require("./configs/dbConfig");
 
 
+
 mongoose.connect(DB_URL);
 let dbConnection = mongoose.connection;
 
@@ -14,7 +15,7 @@ dbConnection.once("open", () => {
     console.log("connection with mongodb successfull")
 })
 
-
+require("dotenv").config();
 
 let express = require("express");
 let bodyParser = require("body-parser");
