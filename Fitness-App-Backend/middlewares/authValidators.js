@@ -35,7 +35,7 @@ let signUpValidator = async (req, res, next) => {
     })
 
     if (isEmailAlreadyExist) {
-        return res.status(200).send({
+        return res.status(400).send({
             message: "failed! this email is already in use with other account"
         })
     }
