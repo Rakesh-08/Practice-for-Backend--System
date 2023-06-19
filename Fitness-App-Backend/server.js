@@ -1,5 +1,4 @@
 
-
 let { PORT }= require("./configs/serverConfig")
 let mongoose = require("mongoose");
 let { DB_Name, DB_URL } = require("./configs/dbConfig");
@@ -20,9 +19,11 @@ dbConnection.once("open", () => {
 let express = require("express");
 let bodyParser = require("body-parser");
 let expressApp = express();
+let cors = require("cors");
 
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
+expressApp.use(cors())
 
 // import the routes
 

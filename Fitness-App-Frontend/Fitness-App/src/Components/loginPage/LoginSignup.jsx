@@ -1,7 +1,8 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthApiCall from "../API-calls/authApi";
-import {userSignup,Signin,hospitalSignUp } from "../API-calls/apiUtils"
+import Apis from "../API-calls/apiUtils";
 
 let initial = { type: "password", class: "fa-eye-slash" };
 let defaultSignup = {
@@ -16,11 +17,12 @@ let defaultSignup = {
 
 export default function LoginSignup({ labels ,signUpToggle }) {
     let [showSignup,setShowSignup]=useState(false)
-  let { hospitalSignUp, setHospitalSignUp } = signUpToggle
-  let [passVisibility, setPassVisibility] = useState(initial)
+let [passVisibility, setPassVisibility] = useState(initial)
   let [signupInfo, setSignupInfo] = useState(defaultSignup);
   let [authMsg,setAuthMsg]= useState({msg:"",color:""})
-  
+  let { hospitalSignUp, setHospitalSignUp } = signUpToggle;
+
+  let NavigateTo = useNavigate();
 
   let toggleVisibility = () => {
    
@@ -34,16 +36,16 @@ export default function LoginSignup({ labels ,signUpToggle }) {
     let object;
     let path;
 
-    if (signupInfo.email.includes("hospital")) {
+    if (signupInfo.lastName.includes("Hospital")) {
         object = {
           hospitalName: signupInfo.firstName,
           hospitalEmail: signupInfo.email,
           hospitalAddress: signupInfo.lastName,
           userId: signupInfo.userId,
           password: signupInfo.password,
-          phone: signupInfo.phone,
+          hospitalphone: signupInfo.phone,
       };
-      path = hospitalSignUp;
+      path = Apis.hospitalSignup
     } else {
          object = {
            firstName: signupInfo.firstName,
@@ -53,14 +55,22 @@ export default function LoginSignup({ labels ,signUpToggle }) {
            password:signupInfo.password,
            phone:signupInfo.phone,
       };
-      path=userSignup
+      path=Apis.userSignup
     }
 
-   
-
     AuthApiCall(path, object)
-    .then((res)=>console.log(res))
-    .catch((err)=> console.log(err))
+      .then((res) => {
+        console.log(res)
+         setAuthMsg({ msg: "Sign up successfully !",color:"text-success" });
+       
+      })
+      .catch((err) => {
+        console.log(err)
+        setAuthMsg({
+          msg: "sign up Failed! some error occurred",
+          color: "text-danger",
+        });
+      })
      
   }
 
@@ -69,12 +79,37 @@ export default function LoginSignup({ labels ,signUpToggle }) {
 
     let credential = {
       userId: signupInfo.userId,
-      password:signupInfo.password
+      password: signupInfo.password
+      
     }
 
-    AuthApiCall(signin, credential)
-      .then((data) => console.log(data))
-    .catch((err)=>console.log(err))
+    AuthApiCall(Apis.Signin, credential)
+      .then((response) => {
+        let data = response.data;
+         if (data.accessToken) {
+           localStorage.setItem("accessToken", data.accessToken);
+           if (data.firstName) {
+             localStorage.setItem("firstName", data.firstName)
+              localStorage.setItem("hospitalName", "");
+             NavigateTo("/User")
+           } else {
+             localStorage.setItem("hospitalName", data.hospitalName)
+             localStorage.setItem("firstName", "");
+             NavigateTo("/Hospital")
+           }
+          
+         }
+      })
+      .catch((err) => {
+        console.log(err)
+
+        if (err.request.status) {
+          localStorage.setItem("errorCode",err.request.status)
+        } else {
+          localStorage.setItem("errorCode" ,500)
+        }
+        NavigateTo("/Error") 
+      })
     
     
   }
@@ -85,10 +120,10 @@ export default function LoginSignup({ labels ,signUpToggle }) {
         <div className="authBox">
           <h4 className="text-center my-2">
             {" "}
-            {showSignup ? "Sign Up" : "Login"}
+            {showSignup ? labels.signupTitle : "Login"}
           </h4>
           <div className="p-4">
-            <form onSubmit={showSignup?signupFn:loginFn} >
+            <form onSubmit={showSignup ? signupFn : loginFn}>
               {showSignup && (
                 <>
                   <div className="m-2">
@@ -203,16 +238,19 @@ export default function LoginSignup({ labels ,signUpToggle }) {
               )}
 
               <div className="my-4">
-                <button  className="border-white rounded-2 p-2 bg-primary">
-                  {showSignup ? "sign up" : "Login"}
+                <button className="border-white rounded-2 p-2 bg-primary">
+                  {showSignup ? "Submit" : "Login"}
                 </button>
               </div>
             </form>
             <div>
               {showSignup && (
                 <button
-                  onClick={() => setHospitalSignUp(!hospitalSignUp)}
-                  className="border-0  mb-2 text-success link"
+                  onClick={() => {
+                    setHospitalSignUp(!hospitalSignUp);
+                    setSignupInfo(defaultSignup);
+                  }}
+                  className="border-0  mb-2 fst-italic fs-5 link"
                 >
                   {" "}
                   {labels.userStatus}
@@ -224,13 +262,16 @@ export default function LoginSignup({ labels ,signUpToggle }) {
                   ? " Already have an account ?"
                   : "Don't have an account ?"}{" "}
                 <button
-                  onClick={() => setShowSignup(!showSignup)}
+                  onClick={() => {
+                    setShowSignup(!showSignup);
+                    setSignupInfo(defaultSignup);
+                  }}
                   className="border-0 link"
                 >
                   {showSignup ? "login" : "Sign up"}
                 </button>
               </p>
-              <p className={`${authMsg.color} m-2`}>{authMsg.msg }</p>
+              <p className={`${authMsg.color} m-2`}>{authMsg.msg}</p>
             </div>
           </div>
         </div>

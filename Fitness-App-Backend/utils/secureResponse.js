@@ -1,8 +1,8 @@
 module.exports = (arr) => {
     let responseObject = [];
 
-    for (let i = 0; i < arr.length; i++){
-        
+    for (let i = 0; i < arr.length; i++) {
+
         let temp = {
             _id: arr[i]._id,
             firstName: arr[i].firstName,
@@ -14,13 +14,17 @@ module.exports = (arr) => {
             hospitalAddress: arr[i].hospitalAddress,
             hospitalPhone: arr[i].hospitalPhone,
             userId: arr[i].userId,
-            accessToken:arr[i].accessToken,
+            accessToken: arr[i].accessToken,
             createdAt: arr[i].createdAt,
             updatedAt: arr[i].updatedAt
         }
 
         responseObject.push(temp)
     }
-    return responseObject
-    
+    if (responseObject.length == 1) {
+        return responseObject[0]
+    } else {
+        return responseObject
+    }
+
 }

@@ -12,7 +12,8 @@ export default function LoginPage() {
         phone: "Phone",
         userId: "userId",
         password: "password",
-         userStatus: "sign up as hospital",
+      userStatus: "Wants to join as Hospital ? ",
+         signupTitle:"User Sign Up"
         
     }
     let hospitalLabels = {
@@ -22,7 +23,8 @@ export default function LoginPage() {
       phone: "Phone",
       userId: "userId",
       password: "password",
-      userStatus: "sign up as user",
+      userStatus: "Wants to join as User ?",
+      signupTitle: "Hospital Sign Up",
     };
     
     
