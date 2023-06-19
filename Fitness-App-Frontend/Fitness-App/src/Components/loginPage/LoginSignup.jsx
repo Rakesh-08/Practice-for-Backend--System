@@ -36,7 +36,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
     let object;
     let path;
 
-    if (signupInfo.lastName.includes("Hospital")) {
+    if (signupInfo.lastName.includes("Hospital"||"hospital")) {
         object = {
           hospitalName: signupInfo.firstName,
           hospitalEmail: signupInfo.email,
@@ -118,7 +118,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
     return (
       <div className="bg-dark vh-100 d-flex justify-content-center align-items-center">
         <div className="authBox">
-          <h4 className="text-center my-2 text-info">
+          <h4 style={{fontStyle:"italic"}} className="text-center my-2 ">
             {" "}
             {showSignup ? labels.signupTitle : "Login"}
           </h4>
@@ -126,8 +126,9 @@ let [passVisibility, setPassVisibility] = useState(initial)
             <form onSubmit={showSignup ? signupFn : loginFn}>
               {showSignup && (
                 <>
-                  <div className="m-2">
+                  <div className="m-1 form-floating">
                     <input
+                      style={{ height: "3em" }}
                       type="text"
                       className="form-control"
                       id={labels.firstName}
@@ -142,9 +143,11 @@ let [passVisibility, setPassVisibility] = useState(initial)
                       }
                       required
                     />
+                    <label>{labels.firstName}</label>
                   </div>
-                  <div className="m-2">
+                  <div className="m-1 form-floating">
                     <input
+                      style={{ height: "3em" }}
                       type="text"
                       className="form-control"
                       id={labels.lastName}
@@ -159,12 +162,14 @@ let [passVisibility, setPassVisibility] = useState(initial)
                       }
                       required
                     />
+                    <label>{labels.lastName}</label>
                   </div>
                 </>
               )}
 
-              <div className="m-2">
+              <div className=" form-floating m-1">
                 <input
+                  style={{ height: "3em" }}
                   type="text"
                   className="form-control"
                   id={labels.userId}
@@ -176,10 +181,12 @@ let [passVisibility, setPassVisibility] = useState(initial)
                   }
                   required
                 />
+                <label>userId</label>
               </div>
 
-              <div className="m-2 d-flex">
+              <div className="form-floating m-1  d-flex">
                 <input
+                  style={{ height: "3em" }}
                   type={passVisibility.type}
                   className="form-control"
                   id={labels.password}
@@ -191,6 +198,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
                   }
                   required
                 />{" "}
+                <label>password</label>
                 <span
                   onClick={toggleVisibility}
                   className={`fa ${passVisibility.class}  m-2`}
@@ -199,8 +207,9 @@ let [passVisibility, setPassVisibility] = useState(initial)
 
               {showSignup && (
                 <>
-                  <div className="m-2">
+                  <div className="m-1 form-floating">
                     <input
+                      style={{ height: "3em" }}
                       type="text"
                       className="form-control"
                       id={labels.email}
@@ -215,10 +224,12 @@ let [passVisibility, setPassVisibility] = useState(initial)
                       }
                       required
                     />
+                    <label>Email</label>
                   </div>
 
-                  <div className="m-2">
+                  <div className="m-1 form-floating">
                     <input
+                      style={{ height: "3em" }}
                       type="text"
                       className="form-control"
                       id={labels.phone}
@@ -233,12 +244,13 @@ let [passVisibility, setPassVisibility] = useState(initial)
                       }
                       required
                     />
+                    <label>Phone No.</label>
                   </div>
                 </>
               )}
 
               <div className="my-4">
-                <button className="border-white rounded-2 p-2 bg-primary">
+                <button className=" border rounded-2 p-2 bg-info">
                   {showSignup ? "Submit" : "Login"}
                 </button>
               </div>
