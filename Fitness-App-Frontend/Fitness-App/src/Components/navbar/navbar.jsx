@@ -32,7 +32,7 @@ export default function Navbar() {
         style={{
           backgroundColor: "white",
           height: "10vh",
-          border: "1px solid grey",
+          border: "1px solid grey"
         }}
       >
         <div style={{ flex: "0.4" }} className="mx-5 px-5 ">

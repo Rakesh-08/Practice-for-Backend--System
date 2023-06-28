@@ -14,5 +14,21 @@
 }
 .navIcon:hover +.navTitle{
     display:block;
+    color:grey
+}
+
+.taskList{
+    display:  flex;
+    justify-content: space-between;
+    padding:1em;
+}
+.taskList span{
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    color:rgb(7, 41, 97)
+}
+.taskList input{
+    width:2em 
 }
 
