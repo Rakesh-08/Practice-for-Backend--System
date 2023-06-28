@@ -128,7 +128,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
                 <>
                   <div className="m-1 form-floating">
                     <input
-                      style={{ height: "3em" }}
+                      style={{ height: "3.4em" }}
                       type="text"
                       className="form-control"
                       id={labels.firstName}
@@ -147,7 +147,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
                   </div>
                   <div className="m-1 form-floating">
                     <input
-                      style={{ height: "3em" }}
+                      style={{ height: "3.4em" }}
                       type="text"
                       className="form-control"
                       id={labels.lastName}
@@ -169,7 +169,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
 
               <div className=" form-floating m-1">
                 <input
-                  style={{ height: "3em" }}
+                  style={{ height: "3.4em" }}
                   type="text"
                   className="form-control"
                   id={labels.userId}
@@ -186,7 +186,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
 
               <div className="form-floating m-1  d-flex">
                 <input
-                  style={{ height: "3em" }}
+                  style={{ height: "3.4em" }}
                   type={passVisibility.type}
                   className="form-control"
                   id={labels.password}
@@ -209,7 +209,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
                 <>
                   <div className="m-1 form-floating">
                     <input
-                      style={{ height: "3em" }}
+                      style={{ height: "3.4em" }}
                       type="text"
                       className="form-control"
                       id={labels.email}
@@ -229,7 +229,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
 
                   <div className="m-1 form-floating">
                     <input
-                      style={{ height: "3em" }}
+                      style={{ height: "3.4em" }}
                       type="text"
                       className="form-control"
                       id={labels.phone}

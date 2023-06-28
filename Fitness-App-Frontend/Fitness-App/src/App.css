@@ -1,0 +1,18 @@
+.active{
+    background-color: purple;
+     color:white;
+}
+
+
+.navIcon:hover{
+    background-color: rgb(182, 181, 181);
+    cursor: pointer;
+    max-width: fit-content;
+}
+.navTitle{
+    display:none;
+}
+.navIcon:hover +.navTitle{
+    display:block;
+}
+
