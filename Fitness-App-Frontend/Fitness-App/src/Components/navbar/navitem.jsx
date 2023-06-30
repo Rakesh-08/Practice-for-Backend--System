@@ -11,16 +11,17 @@ export default function Navitem({ className, title, route }) {
 
     return (
       <div>
-        <div className=" navIcon  p-1 my-2 rounded-4">
+        <div onClick={RouteTo} className=" navIcon  p-1 my-2 rounded-4">
           {route == "" ? (
-            <a className="text-dark"
+            <a
+              className="text-dark"
               href="https://github.com/Rakesh-08/Practice-for-Backend--System/tree/Fitness-App"
               target="_blank"
             >
               <i className={className}></i>
             </a>
           ) : (
-            <div onClick={RouteTo}>
+            <div >
               <i className={className}></i>
             </div>
           )}

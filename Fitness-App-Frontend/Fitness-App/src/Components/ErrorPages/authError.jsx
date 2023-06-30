@@ -1,5 +1,14 @@
+import { useNavigate } from "react-router-dom";
+import { useEffect }from "react"
+
 export default function AuthError() {
-    let errorCode= localStorage.getItem("errorCode")
+  let errorCode = localStorage.getItem("errorCode")
+  let NavigateTo = useNavigate();
+  
+  useEffect(() => {
+          window.onload=NavigateTo("/")
+ },[])
+
     return (
       <div className="vh-100 d-flex justify-content-center" style={{backgroundColor:"whitesmoke"}}>
         <div>

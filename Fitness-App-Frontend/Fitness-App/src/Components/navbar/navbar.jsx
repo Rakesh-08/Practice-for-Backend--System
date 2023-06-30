@@ -54,7 +54,7 @@ export default function Navbar() {
           style={{ flex: "0.6" }}
           className=" d-flex justify-content-around "
         >
-          <Navitem className="fas fa-home fs-4" title="Home" route="/User" />
+          <Navitem className="fas fa-home fs-4" title="Home" route="/Home" />
 
           <Navitem
             className="fas fa-hospital fs-4"
@@ -72,7 +72,7 @@ export default function Navbar() {
 
           {localStorage.getItem("accessToken") ? (
             <div  className='ps-5'>
-              <button onClick={logoutFn} className="btn btn-sm btn-danger shadow-lg ">
+              <button onClick={logoutFn} className="btn btn-sm btn-danger shadow ">
                 Log out
                  </button>
             </div>

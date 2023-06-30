@@ -38,3 +38,7 @@
      font-weight: 500;
 }
 
+.hospitalCard:hover{
+    transform: scale(1.1);
+    box-shadow: 4em 3em 3em solid red;
+}

@@ -17,10 +17,11 @@ let defaultSignup = {
 
 export default function LoginSignup({ labels ,signUpToggle }) {
     let [showSignup,setShowSignup]=useState(false)
-let [passVisibility, setPassVisibility] = useState(initial)
-  let [signupInfo, setSignupInfo] = useState(defaultSignup);
-  let [authMsg,setAuthMsg]= useState({msg:"",color:""})
-  let { hospitalSignUp, setHospitalSignUp } = signUpToggle;
+    let [passVisibility, setPassVisibility] = useState(initial)
+    let [signupInfo, setSignupInfo] = useState(defaultSignup);
+    let [authMsg,setAuthMsg]= useState({msg:"",color:""})
+    let { hospitalSignUp, setHospitalSignUp } = signUpToggle;
+    let [spinner,setSpinner]=useState(false)
 
   let NavigateTo = useNavigate();
 
@@ -33,6 +34,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
 
   let signupFn = (e) => {
     e.preventDefault();
+    setSpinner(true)
     let object;
     let path;
 
@@ -60,7 +62,8 @@ let [passVisibility, setPassVisibility] = useState(initial)
 
     AuthApiCall(path, object)
       .then((res) => {
-        console.log(res)
+        
+         setSpinner(false)
          setAuthMsg({ msg: "Sign up successfully !",color:"text-success" });
        
       })
@@ -76,6 +79,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
 
   let loginFn = (e) => {
     e.preventDefault()
+    setSpinner(true);
 
     let credential = {
       userId: signupInfo.userId,
@@ -91,17 +95,19 @@ let [passVisibility, setPassVisibility] = useState(initial)
            if (data.firstName) {
              localStorage.setItem("firstName", data.firstName)
               localStorage.setItem("hospitalName", "");
-             NavigateTo("/User")
+           
            } else {
              localStorage.setItem("hospitalName", data.hospitalName)
              localStorage.setItem("firstName", "");
-             NavigateTo("/Hospital")
+             
            }
+           setSpinner(false)
+           NavigateTo("/Home")
           
          }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err.response.data)
 
         if (err.request.status) {
           localStorage.setItem("errorCode",err.request.status)
@@ -118,7 +124,7 @@ let [passVisibility, setPassVisibility] = useState(initial)
     return (
       <div className="bg-dark vh-100 d-flex justify-content-center align-items-center">
         <div className="authBox">
-          <h4 style={{fontStyle:"italic"}} className="text-center my-2 ">
+          <h4 style={{ fontStyle: "italic" }} className="text-center my-2 ">
             {" "}
             {showSignup ? labels.signupTitle : "Login"}
           </h4>
@@ -254,6 +260,12 @@ let [passVisibility, setPassVisibility] = useState(initial)
                   {showSignup ? "Submit" : "Login"}
                 </button>
               </div>
+
+              {spinner && (
+                <div className="spinner-grow" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              )}
             </form>
             <div>
               {showSignup && (
