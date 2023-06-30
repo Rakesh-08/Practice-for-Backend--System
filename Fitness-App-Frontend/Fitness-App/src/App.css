@@ -1,0 +1,40 @@
+.active{
+    background-color: purple;
+     color:white;
+}
+
+
+.navIcon:hover{
+    background-color: rgb(182, 181, 181);
+    cursor: pointer;
+    max-width: fit-content;
+}
+.navTitle{
+    display:none;
+}
+.navIcon:hover +.navTitle{
+    display:block;
+    color:grey
+}
+
+.taskList{
+    display:  flex;
+    justify-content: space-between;
+    padding:1em;
+}
+.taskList span{
+    font-size: "large";
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    color:rgb(7, 41, 97)
+}
+.taskList input{
+    width:2em 
+}
+
+.askMeBox :hover{
+    background-color: rgb(108, 240, 112);
+     font-style: italic;
+     font-weight: 500;
+}
+
