@@ -6,7 +6,7 @@ export default function HospitalHome() {
   let userType = localStorage.getItem("hospitalName");
 
   useEffect(() => {
-    if (!(localStorage.getItem("accessToken") && userType)) {
+    if (!(localStorage.getItem("accessToken"))) {
       NavigateTo("/");
     }
   });

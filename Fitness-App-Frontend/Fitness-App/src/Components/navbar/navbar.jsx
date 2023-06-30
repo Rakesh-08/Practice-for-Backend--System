@@ -25,14 +25,24 @@ export default function Navbar() {
             navigateTo("/auth/login");
         }
     };
+  let logoutFn = () => {
 
+    let confirmation=window.confirm("Are you sure ?")
+  
+    if (confirmation) {
+      localStorage.clear();
+      navigateTo("/")
+    }
+
+
+  }
     return (
       <div
         className="d-flex   justify-content-between p-3"
         style={{
           backgroundColor: "white",
           height: "10vh",
-          border: "1px solid grey"
+          border: "1px solid grey",
         }}
       >
         <div style={{ flex: "0.4" }} className="mx-5 px-5 ">
@@ -44,30 +54,44 @@ export default function Navbar() {
           style={{ flex: "0.6" }}
           className=" d-flex justify-content-around "
         >
-          
           <Navitem className="fas fa-home fs-4" title="Home" route="/User" />
-      
-            <Navitem className="fas fa-hospital fs-4" title="H++" route="/HospitalsList" />
-          
-            <Navitem className="fas fa-book fs-4" title="Docs" route=""/>
-          
-            <Navitem className="fas fa-user fs-4" title="User" route="/UserProfile" />
-          
 
-          <div className="mb-4   ">
-            <button
-              onClick={signupRoute}
-              className={` ${login ? "" : "active"}  rounded-1 border-0 p-1`}
-            >
-              sign Up
-            </button>
-            <button
-              onClick={loginRoute}
-              className={` ${login ? "active" : ""}  rounded-1 p-1 border-0`}
-            >
-              Login
-            </button>
-          </div>
+          <Navitem
+            className="fas fa-hospital fs-4"
+            title="H++"
+            route="/HospitalsList"
+          />
+
+          <Navitem className="fas fa-book fs-4" title="Docs" route="" />
+
+          <Navitem
+            className="fas fa-user fs-4"
+            title="User"
+            route="/UserProfile"
+          />
+
+          {localStorage.getItem("accessToken") ? (
+            <div  className='ps-5'>
+              <button onClick={logoutFn} className="btn btn-sm btn-danger shadow-lg ">
+                Log out
+                 </button>
+            </div>
+          ) : (
+            <div className="mb-4   ">
+              <button
+                onClick={signupRoute}
+                className={` ${login ? "" : "active"}  rounded-1 border-0 p-1`}
+              >
+                sign Up
+              </button>
+              <button
+                onClick={loginRoute}
+                className={` ${login ? "active" : ""}  rounded-1 p-1 border-0`}
+              >
+                Login
+              </button>
+            </div>
+          )}
         </div>
       </div>
     );

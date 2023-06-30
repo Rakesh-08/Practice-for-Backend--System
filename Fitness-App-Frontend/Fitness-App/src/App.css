@@ -23,12 +23,18 @@
     padding:1em;
 }
 .taskList span{
-    font-size: large;
+    font-size: "large";
     font-family: 'Times New Roman', Times, serif;
     font-weight: 400;
     color:rgb(7, 41, 97)
 }
 .taskList input{
     width:2em 
+}
+
+.askMeBox :hover{
+    background-color: rgb(108, 240, 112);
+     font-style: italic;
+     font-weight: 500;
 }
 
