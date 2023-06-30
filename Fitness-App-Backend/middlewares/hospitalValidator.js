@@ -45,11 +45,7 @@ module.exports = async (req, res, next) => {
         })
     }
 
-    if (!req.body.userId) {
-        return res.status(400).send({
-            message: "userId is not provided"
-        })
-    }
+ 
     if (!req.body.userId) {
         return res.status(400).send({
             message: "please pass the userId"
