@@ -1,8 +1,9 @@
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthApiCall from "../API-calls/authApi";
 import Apis from "../API-calls/apiUtils";
+import { useDispatch } from "react-redux";
 
 let initial = { type: "password", class: "fa-eye-slash" };
 let defaultSignup = {
@@ -24,7 +25,8 @@ export default function LoginSignup({ labels ,signUpToggle }) {
     let [spinner,setSpinner]=useState(false)
 
   let NavigateTo = useNavigate();
-
+ 
+  
   let toggleVisibility = () => {
    
        let obj=  passVisibility.type === 'password' ? { type: "text", class: "fa-eye" }:initial
@@ -92,6 +94,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
         let data = response.data;
          if (data.accessToken) {
            localStorage.setItem("accessToken", data.accessToken);
+           localStorage.setItem("user",JSON.stringify(data))
            if (data.firstName) {
              localStorage.setItem("firstName", data.firstName)
               localStorage.setItem("hospitalName", "");

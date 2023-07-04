@@ -15,8 +15,8 @@ function HospitalCard({ hospital,openModal }) {
         <Card.Body className="bg">
             <Card.Title>{hospital.hospitalName}</Card.Title>
           <Card.Text>
-              {hospital.hospitalAddress}
-                <Card.Text>description of what all kinds of disease being cured here </Card.Text>
+              {` ${hospital.hospitalAddress} 
+                , description of what all kinds of disease being cured here `}
           </Card.Text>
           <div >
             {" "}

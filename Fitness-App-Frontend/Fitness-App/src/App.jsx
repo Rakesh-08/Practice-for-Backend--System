@@ -7,10 +7,21 @@ import UserProfile from "./Components/UserPages/userProfile";
 import HomePage from "./Components/homePage/Home";
 import Navbar from "./Components/navbar/navbar";
 import HospitalList from "./Components/UserPages/HospitalsList";
-
+import { useEffect } from "react" ;
+import { useDispatch } from "react-redux";
 
 
 function App() {
+
+   let dispatch = useDispatch();
+
+   useEffect(() => {
+     let data = localStorage.getItem("user")
+     dispatch({
+       type: "setUser",
+       payload: JSON.parse(data),
+     });
+   }, []);
   
   return (
     <div>

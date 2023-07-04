@@ -10,20 +10,19 @@ export default function Navbar() {
 
     let loginRoute = () => {
         if (login === true) {
-            setShowSignup(false);
-            navigateTo("/auth/login");
+            navigateTo("/");
             return;
         }
         setLogin(true);
     };
 
     let signupRoute = () => {
-        setLogin(false);
-
+      
         if (login == false) {
-            setShowSignup(true);
-            navigateTo("/auth/login");
-        }
+          navigateTo("/");
+          return
+      }
+      setLogin(false);
     };
   let logoutFn = () => {
 

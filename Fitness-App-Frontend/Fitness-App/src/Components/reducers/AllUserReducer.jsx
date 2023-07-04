@@ -1,7 +1,9 @@
 
 
 
-let UserInfoReducer = (state = {}, action)=>{
+let UserInfoReducer = (state = {}, action) => {
+    
+  
     switch (action.type) {
         
         case "setUser":
