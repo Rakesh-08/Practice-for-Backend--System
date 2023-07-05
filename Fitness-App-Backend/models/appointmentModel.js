@@ -17,7 +17,6 @@ let appointmentsSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref:"symptoms"
     },
-
     appointment: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "users"
@@ -32,7 +31,7 @@ let appointmentsSchema = new mongoose.Schema({
         default: () => Date.now()
     },
     shift: {
-        type: "String" 
+        type: "String" ,
         required:true
      },
     updatedAt: {
