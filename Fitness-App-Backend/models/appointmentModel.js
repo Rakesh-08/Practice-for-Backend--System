@@ -31,6 +31,10 @@ let appointmentsSchema = new mongoose.Schema({
         type: Date,
         default: () => Date.now()
     },
+    shift: {
+        type: "String" 
+        required:true
+     },
     updatedAt: {
         type: Date,
         default:()=>Date.now()
