@@ -15,7 +15,7 @@ let bookAppointment = async (req, res) => {
         }
 
         let ObjectPassed = {};
-        let {hospitalName,department,symptomsType,duration,symptomsInfo }= req.body
+        let {hospitalName,department,symptomsType,duration,symptomsInfo,appointmentDate }= req.body
          
         // create symptoms
 
@@ -29,7 +29,9 @@ let bookAppointment = async (req, res) => {
         ObjectPassed.hospitalName = hospitalName;
         ObjectPassed.department = department;;
         ObjectPassed.appointment = req._id;
-        ObjectPassed.symptoms= symptoms._id
+        ObjectPassed.symptoms= symptoms._id;
+          ObjectPassed.appointmentDate = appointmentDate;
+        
         
         let createAppointment = await appointmentModel.create(ObjectPassed)
         
