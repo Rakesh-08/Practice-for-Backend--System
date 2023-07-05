@@ -1,4 +1,5 @@
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { getHospitals } from "../API-calls/hospitalApi";
 import { useEffect,useState } from "react";
 import HospitalCard from "./hospitalCard";
@@ -15,17 +16,17 @@ let emptyAppointment = {
   symptomsTiming: "",
   briefNote: "",
   appointmentDate: "",
-  appointmentTiming:"1"
-  
-}
+  appointmentTiming: "9:30 A.M - 10:00 A.M",
+};
 
 export default function HospitalList() {
   let [showModal, setShowModal] = useState(false);
-  let [appointmentInfo,setAppointmentInfo]=useState(emptyAppointment)
+  let [appointmentInfo, setAppointmentInfo] = useState(emptyAppointment);
+  
       
   let HospitalList = useSelector(state => state.HospitalList);
-
   let dispatch = useDispatch();
+  let NavigateTo = useNavigate();
 
   useEffect(() => {
     fetchAllHospitals();
@@ -61,11 +62,12 @@ export default function HospitalList() {
       symptomsType: appointmentInfo.symptomsCategory,
       symptomsInfo: appointmentInfo.briefNote,
       duration: appointmentInfo.symptomsTiming,
-      appointmentDate: `${appointmentInfo.appointmentDate}, shift:  ${appointmentInfo.appointmentTiming}`
+      appointmentDate:appointmentInfo.appointmentDate,
+      shift:appointmentInfo.appointmentTiming,
     };
     
     postAppointment(object).then((response) => {
-      console.log(response.data)
+           NavigateTo("/UserProfile")
     }).catch(err=>console.log(err))
   }
     
@@ -103,7 +105,7 @@ export default function HospitalList() {
               <Modal.Header className="text- fs-3" closeButton>
                 Appointment Booking Form
               </Modal.Header>
-              <Modal.Body className="bg-info">
+              <Modal.Body className="bg-light">
                 <div className="d-flex  justify-content-center">
                   <form onSubmit={createAppointment}>
                     <div className="m-2 p-2 row input-group">
@@ -213,14 +215,30 @@ export default function HospitalList() {
                         }
                         className="form-control mx-3"
                       >
-                        <option value="1">9:30 A.M - 10:00 A.M</option>
-                        <option value="2">10:00 A.M - 11:00 A.M</option>
-                        <option value="3">11:00 A.M - 12:00 A.M</option>
-                        <option value="4">12:00 A.M - 01:00 P.M</option>
-                        <option value="5">02:30 P.M - 03:30 P.M</option>
-                        <option value="6">03:30 P.M - 04:30 P.M</option>
-                        <option value="7">04:30 P.M - 05:30 P.M</option>
-                        <option value="8">05:30 P.M - 06:00 P.M</option>
+                        <option value="9:30 A.M - 10:00 A.M">
+                          9:30 A.M - 10:00 A.M
+                        </option>
+                        <option value="10:00 A.M - 11:00 A.M">
+                          10:00 A.M - 11:00 A.M
+                        </option>
+                        <option value="11:00 A.M - 12:00 A.M">
+                          11:00 A.M - 12:00 A.M
+                        </option>
+                        <option value="12:00 A.M - 01:00 P.M">
+                          12:00 A.M - 01:00 P.M
+                        </option>
+                        <option value="02:30 P.M - 03:30 P.M">
+                          02:30 P.M - 03:30 P.M
+                        </option>
+                        <option value="03:30 P.M - 04:30 P.M">
+                          03:30 P.M - 04:30 P.M
+                        </option>
+                        <option value="04:30 P.M - 05:30 P.M">
+                          04:30 P.M - 05:30 P.M
+                        </option>
+                        <option value="05:30 P.M - 06:00 P.M">
+                          05:30 P.M - 06:00 P.M
+                        </option>
                       </select>
                     </div>
 
