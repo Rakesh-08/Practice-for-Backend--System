@@ -20,7 +20,7 @@ function HospitalCard({ hospital,openModal }) {
           </Card.Text>
           <div >
             {" "}
-            <Button onClick={()=>openModal(hospital._id)} className="mx-2" variant="primary">Book Appointment</Button>
+            <Button onClick={()=>openModal(hospital.hospitalName)} className="mx-2" variant="primary">Book Appointment</Button>
             <Button variant="success"> Know More ...</Button>
           </div>
         </Card.Body>

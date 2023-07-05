@@ -5,6 +5,8 @@ let Apis = {
   hospitalSignup: "/fitnessApp/api/v1/auth/signupAsHospital",
   getAllHospitals: "/fitnessApp/api/v1/hospitals",
   getHospitalById: "/fitnessApp/api/v1/hospitals/",
+  bookAppointment: "/fitnessApp/api/v1/appointment",
+  getAllAppointments: "/fitnessApp/api/v1/appointments",
 };
 
 export default Apis

@@ -3,10 +3,25 @@ import { getHospitals } from "../API-calls/hospitalApi";
 import { useEffect,useState } from "react";
 import HospitalCard from "./hospitalCard";
 import { Modal } from "react-bootstrap";
+import { postAppointment } from "../API-calls/appointmentApi";
+
+
+
+
+let emptyAppointment = {
+  hospitalName: "",
+  department: "A",
+  symptomsCategory: "A",
+  symptomsTiming: "",
+  briefNote: "",
+  appointmentDate: "",
+  appointmentTiming:"1"
+  
+}
 
 export default function HospitalList() {
   let [showModal, setShowModal] = useState(false);
-  let [hospitalId,setHospitalId]=useState("")
+  let [appointmentInfo,setAppointmentInfo]=useState(emptyAppointment)
       
   let HospitalList = useSelector(state => state.HospitalList);
 
@@ -16,16 +31,14 @@ export default function HospitalList() {
     fetchAllHospitals();
   },[])
   
-  let openModal = (id)=>{
-    setHospitalId(id)
+  let openModal = (name)=>{
+   setAppointmentInfo({...appointmentInfo,hospitalName:name})
     setShowModal(true)
   }
-  
-  
-  
-  let fetchAllHospitals = async () => {
+   
+  let fetchAllHospitals =  () => {
     
-   await getHospitals().
+    getHospitals().
       then((response) => {
         
         dispatch({
@@ -38,12 +51,30 @@ export default function HospitalList() {
     })
 
   }
+
+  
+  let createAppointment = (e) => {
+    e.preventDefault()
+    let object = {
+      hospitalName: appointmentInfo.hospitalName,
+      department: appointmentInfo.department,
+      symptomsType: appointmentInfo.symptomsCategory,
+      symptomsInfo: appointmentInfo.briefNote,
+      duration: appointmentInfo.symptomsTiming,
+      appointmentDate: `${appointmentInfo.appointmentDate}, shift:  ${appointmentInfo.appointmentTiming}`
+    };
+    
+    postAppointment(object).then((response) => {
+      console.log(response.data)
+    }).catch(err=>console.log(err))
+  }
     
   return (
     <div className="d-flex justify-content-center ">
       <div style={{ flex: "0.3" }}>
         <div className="ms-5" style={{ position: "sticky", top: "20%" }}>
           <img
+            style={{ width: "20vw" }}
             src="https://www.wordsjustforyou.com/wp-content/uploads/2020/04/Happy-World-Health-Day-Gif_wordsjustforyou_02060420.gif"
             alt="thankyoumsg"
           />
@@ -68,21 +99,35 @@ export default function HospitalList() {
               fullscreen={true}
               centered
               backdrop="static"
-              
             >
-              <Modal.Header className="text-primary fs-3" closeButton>
+              <Modal.Header className="text- fs-3" closeButton>
                 Appointment Booking Form
               </Modal.Header>
-              <Modal.Body className="bg-warning">
+              <Modal.Body className="bg-info">
                 <div className="d-flex  justify-content-center">
-                  <form>
+                  <form onSubmit={createAppointment}>
                     <div className="m-2 p-2 row input-group">
-                      <label className="fs-4">Hospital </label>
-                      <input type="text" className="form-control mx-3" />
+                      <label className="fs-4 ">Hospital </label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mx-3 fw-bold text-secondary"
+                        value={appointmentInfo.hospitalName}
+                        readOnly
+                      />
                     </div>
                     <div className="m-2 p-2 row input-group">
                       <label>Department </label>
-                      <select className="form-control mx-3">
+                      <select
+                        value={appointmentInfo.department}
+                        onChange={(e) =>
+                          setAppointmentInfo({
+                            ...appointmentInfo,
+                            department: e.target.value,
+                          })
+                        }
+                        className="form-control mx-3"
+                      >
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
@@ -94,7 +139,16 @@ export default function HospitalList() {
                     </div>
                     <div className="m-2 p-2 row input-group">
                       <label>Symptoms Category </label>
-                      <select className="form-control mx-3">
+                      <select
+                        value={appointmentInfo.symptomsCategory}
+                        onChange={(e) =>
+                          setAppointmentInfo({
+                            ...appointmentInfo,
+                            symptomsCategory: e.target.value,
+                          })
+                        }
+                        className="form-control mx-3"
+                      >
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
@@ -103,15 +157,62 @@ export default function HospitalList() {
                     </div>
                     <div className="m-2 p-2 row input-group">
                       <label>Timing of Symptoms</label>
-                      <input placeholder="what time do you get these symptoms " type="text" className="form-control mx-3" />
+                      <input
+                        required
+                        placeholder="what time do you get these symptoms "
+                        type="text"
+                        className="form-control mx-3"
+                        value={appointmentInfo.symptomsTiming}
+                        onChange={(e) =>
+                          setAppointmentInfo({
+                            ...appointmentInfo,
+                            symptomsTiming: e.target.value,
+                          })
+                        }
+                      />
                     </div>
+
                     <div className="m-2 row p-2 input-group">
                       <label>Brief description about How you feeling ?</label>
-                      <textarea className="form-control mx-3"></textarea>
+                      <textarea
+                        required
+                        value={appointmentInfo.briefNote}
+                        onChange={(e) =>
+                          setAppointmentInfo({
+                            ...appointmentInfo,
+                            briefNote: e.target.value,
+                          })
+                        }
+                        className="form-control mx-3"
+                      ></textarea>
+                    </div>
+                    <div className="m-2 p-2 row input-group">
+                      <label>Appointment Date</label>
+                      <input
+                        required
+                        type="date"
+                        className="form-control mx-3"
+                        value={appointmentInfo.appointmentDate}
+                        onChange={(e) =>
+                          setAppointmentInfo({
+                            ...appointmentInfo,
+                            appointmentDate: e.target.value,
+                          })
+                        }
+                      />
                     </div>
                     <div className="m-2 p-2 row input-group">
                       <label>Appointment Timing</label>
-                      <select className="form-control mx-3">
+                      <select
+                        value={appointmentInfo.appointmentTiming}
+                        onChange={(e) =>
+                          setAppointmentInfo({
+                            ...appointmentInfo,
+                            appointmentTiming: e.target.value,
+                          })
+                        }
+                        className="form-control mx-3"
+                      >
                         <option value="1">9:30 A.M - 10:00 A.M</option>
                         <option value="2">10:00 A.M - 11:00 A.M</option>
                         <option value="3">11:00 A.M - 12:00 A.M</option>
@@ -124,7 +225,7 @@ export default function HospitalList() {
                     </div>
 
                     <div className="my-5 p-4">
-                      <button className="btn btn-success btn-lg">
+                      <button type="submit" className="btn btn-success btn-lg">
                         Create Appointment
                       </button>
                     </div>

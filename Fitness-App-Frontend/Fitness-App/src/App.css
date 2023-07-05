@@ -43,4 +43,7 @@
     box-shadow: 4em 3em 3em solid red;
 }
 
-
+form label{
+    font-variant: small-caps;
+    font-size:larger;
+}
