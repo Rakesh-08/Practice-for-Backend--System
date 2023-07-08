@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route,useLocation } from "react-router-dom"
 import './App.css'
 import LoginPage from './Components/loginPage/loginPage'
 import AuthError from "./Components/ErrorPages/authError";
@@ -7,7 +7,7 @@ import UserProfile from "./Components/UserPages/userProfile";
 import HomePage from "./Components/homePage/Home";
 import Navbar from "./Components/navbar/navbar";
 import HospitalList from "./Components/UserPages/HospitalsList";
-import { useEffect } from "react" ;
+import { useEffect,useState } from "react" ;
 import { useDispatch } from "react-redux";
 
 
@@ -26,9 +26,11 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <div style={{position:"sticky",top:"0",zIndex:"999"}} >
-           <Navbar  />
-        </div>
+        <LayoutForNonNavbar>
+            <Navbar/>
+        </LayoutForNonNavbar>
+     
+        
        
         <Routes>
           <Route path="/" element={<LoginPage />}></Route>
@@ -44,3 +46,28 @@ function App() {
 }
 
 export default App
+
+
+function LayoutForNonNavbar({ children }) {
+
+  let [showNavbar, setShowNavbar] = useState(false)
+  let location = useLocation();
+   let excludedRoutes=["/","/Error"]
+  
+
+  useEffect(() => {
+
+    if (excludedRoutes.includes(location.pathname)) {
+          setShowNavbar(false)
+    } else {
+      setShowNavbar(true)
+    }
+    
+  },[location])
+  
+  return (
+    <div style={{ position: "sticky", top: "0", zIndex: "999" }}>
+      {showNavbar && children}
+    </div>
+  );
+}

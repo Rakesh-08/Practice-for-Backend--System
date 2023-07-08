@@ -30,6 +30,7 @@ export default function LoginPage() {
     
     return (
       <div>
+      
         {hospitalSignUp ? (
           <LoginSignup
             labels={hospitalLabels}

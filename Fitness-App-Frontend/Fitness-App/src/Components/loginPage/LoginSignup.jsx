@@ -125,7 +125,10 @@ export default function LoginSignup({ labels ,signUpToggle }) {
     
     
     return (
-      <div className="bg-dark vh-100 d-flex justify-content-center align-items-center">
+      <div className="bg-dark min-vh-100 d-flex justify-content-around align-items-center">
+        <div >
+          <h1 className=" m-2 p-2 text-white display-6 text-uppercase lead "> welcome to </h1>
+        </div>
         <div className="authBox">
           <h4 style={{ fontStyle: "italic" }} className="text-center my-2 ">
             {" "}
@@ -301,6 +304,11 @@ export default function LoginSignup({ labels ,signUpToggle }) {
               <p className={`${authMsg.color} m-2`}>{authMsg.msg}</p>
             </div>
           </div>
+        </div>
+        <div>
+          <h1 className="text-success display-5  lead fw-bold  text-uppercase">
+            fit-india
+          </h1>
         </div>
       </div>
     );
