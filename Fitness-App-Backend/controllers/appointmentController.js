@@ -58,6 +58,8 @@ let bookAppointment = async (req, res) => {
 let updateAppointment = async (req, res) => {
     
     try {
+
+        let updatePassed=req.body;
            
         let booking = await appointmentModel.findOne({
             _id: req.params.appointmentId
@@ -72,17 +74,11 @@ let updateAppointment = async (req, res) => {
             })
         }
 
-        if (Object.keys(req.body).length > 1 || !(Object.keys(req.body).includes("status"))) {
-            
-            return res.status(401).send({
-                message:"you are only allowed to change the status of your appointment"
-            })
-        }
+      let updatedAppointment= await appointmentModel.findOneAndUpdate({
+          _id:req.params.appointmentId},updatePassed,{
+          new:true});
         
-        booking.status = req.body.status
-        await booking.save();
-        
-        res.status(200).send(booking)
+        res.status(200).send(updatedAppointment)
 
     } catch (err) {
         console.log(err)
