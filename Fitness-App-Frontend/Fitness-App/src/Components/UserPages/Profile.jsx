@@ -9,7 +9,7 @@ import UpdateAppointmentModal from "../updateAppointmentComponent";
 
 
 
-export default function UserProfile() {
+export default function Profile() {
   let [appointments, setAppointments] = useState([])
   let [showTable, setShowTable] = useState(false)
   let [status, setStatus] = useState({})
@@ -63,7 +63,11 @@ export default function UserProfile() {
     { title: "ID", field: "_id" },
     { title: "Hospital Name", field: "hospitalName" },
     { title: "Department", field: "department" },
-    { title: "Date of Appointment", field: "appointmentDate" },
+    {
+      title: "Date of Appointment", field: "appointmentDate", render: ( rowData) => 
+           rowData.appointmentDate.substring(0,10)
+      
+     },
     { title: "Timing", field: "shift" },
     { title: "Status", field: "status" },
   ];
@@ -95,11 +99,12 @@ export default function UserProfile() {
         </div>
         <div className="m-2  text-center">
           <h3 className="p-3 bg-success text-light">
-            {user.firstName} {user.lastName}
+            {user.firstName} {user.lastName} {user.hospitalName}
           </h3>
-          <h5 className="text-primary my-3  ">{user.email}</h5>
+          <h4 className="m-2 p-2 ">{user.hospitalAddress}</h4>
+          <h5 className="text-primary my-3  ">{user.email|| user.hospitalEmail}</h5>
           <p>
-            <PhoneIcon /> {user.phone}
+            <PhoneIcon /> {user.phone||user.hospitalPhone}
           </p>
         </div>
       </div>
@@ -135,9 +140,17 @@ export default function UserProfile() {
                   },
                 ]}
                 onRowClick={(e, rowData) => {
+                  
                  dispatch({
-                   type: "setShowUpdate",
-                   payload: true,
+                   type: "currentRow",
+                   payload: {
+                     showUpdate:true,
+                     hospitalName: rowData.hospitalName,
+                     appointmentDate: rowData.appointmentDate,
+                     appointmentTiming: rowData.shift,
+                     status: rowData.status,
+                     _id: rowData._id,
+                   },
                  });
                 }}
                 options={{
@@ -157,7 +170,7 @@ export default function UserProfile() {
           )}
         </div>
         <div>
-          <UpdateAppointmentModal/>
+          <UpdateAppointmentModal fetchAppointments={fetchAllAppointments} />
         </div>
       </div>
     </div>

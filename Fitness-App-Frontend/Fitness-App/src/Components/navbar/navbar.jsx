@@ -41,6 +41,7 @@ export default function Navbar() {
         style={{
           backgroundColor: "white",
           height: "10vh",
+          width:"100%",
           border: "1px solid grey",
         }}
       >
@@ -66,7 +67,7 @@ export default function Navbar() {
           <Navitem
             className="fas fa-user fs-4"
             title="User"
-            route="/UserProfile"
+            route="/Profile"
           />
 
           {localStorage.getItem("accessToken") ? (

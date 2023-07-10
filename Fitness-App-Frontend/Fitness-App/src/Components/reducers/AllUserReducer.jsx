@@ -2,7 +2,7 @@
 
 
 let UserInfoReducer = (state = {}, action) => {
-    
+
   
     switch (action.type) {
         

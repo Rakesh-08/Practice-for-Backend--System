@@ -25,6 +25,7 @@ export default function HospitalList() {
   
       
   let HospitalList = useSelector(state => state.HospitalList);
+  let profile= useSelector(state=>state.ProfileInfo)
   let dispatch = useDispatch();
   let NavigateTo = useNavigate();
 
@@ -32,14 +33,19 @@ export default function HospitalList() {
     fetchAllHospitals();
   },[])
   
-  let openModal = (name)=>{
+  let openModal = (name) => {
+    
+    if (profile.hospitalName) {
+      alert("Sorry ! you can't book appointment. please signin as user To Book appointment")
+      return
+    }
    setAppointmentInfo({...appointmentInfo,hospitalName:name})
     setShowModal(true)
   }
    
-  let fetchAllHospitals =  () => {
+  let fetchAllHospitals =  async () => {
     
-    getHospitals().
+   await getHospitals().
       then((response) => {
         
         dispatch({

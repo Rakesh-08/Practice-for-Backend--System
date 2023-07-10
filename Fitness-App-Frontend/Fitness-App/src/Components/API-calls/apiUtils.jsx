@@ -7,7 +7,8 @@ let Apis = {
   getHospitalById: "/fitnessApp/api/v1/hospitals/",
   bookAppointment: "/fitnessApp/api/v1/appointment",
   getAppointments: "/fitnessApp/api/v1/appointments",
-  delAppointment:"/fitnessApp/api/v1/appointment/",
+  delAppointment: "/fitnessApp/api/v1/appointment/",
+  editAppointment: "/fitnessApp/api/v1/appointment/",
 };
 
 export default Apis

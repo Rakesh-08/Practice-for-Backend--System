@@ -1,5 +1,5 @@
 
-import { useState,useEffect } from "react";
+import { useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import AuthApiCall from "../API-calls/authApi";
 import Apis from "../API-calls/apiUtils";
@@ -25,6 +25,10 @@ export default function LoginSignup({ labels ,signUpToggle }) {
     let [spinner,setSpinner]=useState(false)
 
   let NavigateTo = useNavigate();
+  
+  useEffect(() => {
+           localStorage.getItem("accessToken") && NavigateTo("/Home")
+   },[])
  
   
   let toggleVisibility = () => {
@@ -97,11 +101,11 @@ export default function LoginSignup({ labels ,signUpToggle }) {
            localStorage.setItem("user",JSON.stringify(data))
            if (data.firstName) {
              localStorage.setItem("firstName", data.firstName)
-              localStorage.setItem("hospitalName", "");
+              localStorage.removeItem("hospitalName", "");
            
            } else {
              localStorage.setItem("hospitalName", data.hospitalName)
-             localStorage.setItem("firstName", "");
+             localStorage.removeItem("firstName", "");
              
            }
            setSpinner(false)
