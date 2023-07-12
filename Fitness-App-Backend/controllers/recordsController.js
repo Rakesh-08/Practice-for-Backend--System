@@ -7,7 +7,7 @@ let hospitalModel= require("../models/hospitalModel")
 let createRecord = async (req, res) => {
     try {
 
-        let { statusReport, appointmentId, prescription, dosage } = req.body
+        let { statusReport, appointmentId,doctorId, prescription, dosage } = req.body
 
         let hospital = await hospitalModel.findOne({
             _id:req._id
@@ -25,26 +25,23 @@ let createRecord = async (req, res) => {
             })
         }
         
-        booking.status = 'FULFILLED';
+        booking.status = 'VISITED';
         await booking.save();
   
         let record = await recordsModel.findOne({
             patient: booking.appointment.toString()
         })
       
-        
-        let doctor = await doctorModel.findOne({
-            department: booking.department.toString()
-        })
+       
 
-        if (!doctor) {
-            doctor = { _id: req._id }
+        if (!doctorId) {
+            doctorId = { _id: req._id }
         }
 
         let medicalAdvice = await prescriptionModel.create({
             prescription: prescription,
             dosage: dosage,
-            prescribedDoctor: doctor._id
+            prescribedDoctor: doctorId
         })
 
         // if there is another appointment for the same patient then ....
