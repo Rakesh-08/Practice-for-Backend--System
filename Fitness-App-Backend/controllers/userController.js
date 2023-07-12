@@ -65,7 +65,7 @@ let deleteUser = async (req, res) => {
 let getAllUsers = async (req, res) => {
     try {
         let patients = await trackRecordsModel.find({
-            hopital: req._id
+            hospital: req._id
         }).select({ "patient": 1, "_id": 0 });
 
         let users = await userModel.find({
