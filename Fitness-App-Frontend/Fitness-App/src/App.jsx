@@ -16,7 +16,7 @@ function App() {
 
    useEffect(() => {
      let data = localStorage.getItem("user")
-     console.log(JSON.parse(data));
+    
      dispatch({
        type: "setUser",
        payload: JSON.parse(data),

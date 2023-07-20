@@ -9,6 +9,9 @@ let Apis = {
   getAppointments: "/fitnessApp/api/v1/appointments",
   delAppointment: "/fitnessApp/api/v1/appointment/",
   editAppointment: "/fitnessApp/api/v1/appointment/",
+  postDoctor: "/fitnessApp/api/v1/doctor",
+  getAllDoctors: "/fitnessApp/api/v1/doctors",
+  getAllPatients: "/fitnessApp/api/v1/users",
 };
 
 export default Apis

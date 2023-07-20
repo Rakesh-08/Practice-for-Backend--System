@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import Navitem from "./navitem";
 
@@ -6,7 +7,7 @@ import Navitem from "./navitem";
 export default function Navbar() {
     const navigateTo = useNavigate();
     const [login, setLogin] = useState(true);
-  
+  let dispatch = useDispatch();
 
     let loginRoute = () => {
         if (login === true) {
@@ -30,6 +31,10 @@ export default function Navbar() {
   
     if (confirmation) {
       localStorage.clear();
+       dispatch({
+         type: "setUser",
+         payload: {},
+       });
       navigateTo("/")
     }
 

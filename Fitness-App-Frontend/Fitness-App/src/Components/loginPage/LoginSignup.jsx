@@ -117,7 +117,8 @@ export default function LoginSignup({ labels ,signUpToggle }) {
         console.log(err.response.data)
 
         if (err.request.status) {
-          localStorage.setItem("errorCode",err.request.status)
+          localStorage.setItem("errorCode", err.request.status)
+          localStorage.setItem("errMsg",err.response.data.message)
         } else {
           localStorage.setItem("errorCode" ,500)
         }

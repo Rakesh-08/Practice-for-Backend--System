@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect }from "react"
+
 
 export default function AuthError() {
   let errorCode = localStorage.getItem("errorCode")
+  let errMsg= localStorage.getItem("errMsg")
   let NavigateTo = useNavigate();
-  
-  useEffect(() => {
-          window.onload=NavigateTo("/")
- },[])
+
+  if (window.location.reload) {
+   NavigateTo("/")
+  }
 
     return (
       <div className="vh-100 d-flex justify-content-center" style={{backgroundColor:"whitesmoke"}}>
@@ -17,7 +18,7 @@ export default function AuthError() {
                     alt="error"
                     height="600em"
           />
-          <p className="fs-4">{`Error occurred with code : ${errorCode}`}</p>
+          <p className="fs-2 rounded bg-warning lead text-danger border p-3 text-center shadow">{`${errMsg}: ${errorCode}`}</p>
         </div>
       </div>
     );

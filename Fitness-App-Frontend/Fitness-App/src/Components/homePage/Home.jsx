@@ -45,7 +45,7 @@ export default function HomePage() {
         <div className=" d-flex h-50  align-items-center justify-content-center p-2 m-3 ">
           <div className="p-3  h-100 w-50 rounded-3 shadow-lg ">
             <h4 className="p-4 text-center text-secondary">
-              Tasks To Stay healthy{" "}
+              Daily Routine To Stay healthy{" "}
             </h4>
             <div>
               <div className="taskList">
