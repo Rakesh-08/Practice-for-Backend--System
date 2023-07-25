@@ -70,7 +70,7 @@ let getAllUsers = async (req, res) => {
 
         let users = await userModel.find({
             _id: {
-                $in:patients
+                $in:patients.patient
             }
         })
 
