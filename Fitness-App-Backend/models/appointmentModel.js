@@ -23,7 +23,7 @@ let appointmentsSchema = new mongoose.Schema({
     },
     patient: {
         type: String,
-        required:true
+    
     }
     ,
     status: {
