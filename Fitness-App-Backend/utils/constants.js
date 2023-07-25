@@ -1,7 +1,7 @@
 module.exports = {
     appointmentStatus: {
         open:'OPEN',
-        fulfilled:'FULFILLED',
+        fulfilled:'VISITED',
         cancelled:'CANCELLED'
     }
 }
