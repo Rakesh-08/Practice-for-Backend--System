@@ -24,17 +24,11 @@ let createRecord = async (req, res) => {
                 message: "there is no open appointment for this appointmentId"
             })
         }
-        
-        booking.status = 'VISITED';
-        await booking.save();
+          
   
         let record = await recordsModel.findOne({
             patient: booking.appointment.toString()
         })
-      
-       
-
-      
 
         let medicalAdvice = await prescriptionModel.create({
             prescription: prescription,
@@ -68,11 +62,15 @@ let createRecord = async (req, res) => {
         let createRecord = await recordsModel.create(createObject)
 
         if (createRecord) {
+
+            booking.status = 'VISITED';
+            await booking.save();
+
             res.status(200).send({
                 _id:createRecord._id,
                 ...createObject,
-                createdAt: record.createdAt,
-                 updatedAt:record.updatedAt
+                createdAt: createRecord.createdAt,
+                 updatedAt:createRecord.updatedAt
             })
         }
 
