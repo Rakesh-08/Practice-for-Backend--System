@@ -20,6 +20,10 @@ let appointmentsSchema = new mongoose.Schema({
     appointment: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "users"
+    },
+    patient: {
+        type: String,
+        required:true
     }
     ,
     status: {

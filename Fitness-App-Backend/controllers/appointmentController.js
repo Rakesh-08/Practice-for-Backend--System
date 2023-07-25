@@ -26,9 +26,18 @@ let bookAppointment = async (req, res) => {
 
         })
 
+        // fetch patient name
+
+        let appointee = await userModel.findOne({
+            _id:req._id
+        })
+
+        let patientName= appointee.firstName + " " + appointee.lastName
+
         ObjectPassed.hospitalName = hospitalName;
-        ObjectPassed.department = department;;
+        ObjectPassed.department = department;
         ObjectPassed.appointment = req._id;
+        ObjectPassed.patient = patientName;
         ObjectPassed.symptoms= symptoms._id;
         ObjectPassed.appointmentDate = appointmentDate;
         ObjectPassed.shift = shift;
