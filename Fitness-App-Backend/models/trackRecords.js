@@ -6,6 +6,7 @@ let trackRecordSchema = new mongoose.Schema({
     patient: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
+       unique:true,
         ref:"users"
     },
     hospital: {
