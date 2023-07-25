@@ -7,6 +7,12 @@ module.exports = async (req, res,next) => {
         })
     }
 
+    if (!req.body.doctorId) {
+        return res.status(400).send({
+            message: "please provide the doctor id "
+        })
+    }
+
     if (!req.body.statusReport) {
         return res.status(400).send({
             message:"please provide the status report of the patient"

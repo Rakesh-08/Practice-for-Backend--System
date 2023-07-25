@@ -34,9 +34,7 @@ let createRecord = async (req, res) => {
       
        
 
-        if (!doctorId) {
-            doctorId = { _id: req._id }
-        }
+      
 
         let medicalAdvice = await prescriptionModel.create({
             prescription: prescription,
@@ -48,7 +46,7 @@ let createRecord = async (req, res) => {
         
         if (record && record.hospital.toString() == req._id) {
 
-            record.doctorAttended.push(doctor._id);
+            record.doctorAttended.push(doctorId);
             record.symptoms.push(booking.symptoms);
             record.prescription.push(medicalAdvice._id);
             record.statusReport = statusReport;
@@ -60,7 +58,7 @@ let createRecord = async (req, res) => {
         let createObject = {
             patient: booking.appointment.toString(),
             hospital: req._id,
-            doctorAttended: [doctor._id],
+            doctorAttended: [doctorId],
             symptoms: [booking.symptoms],
             prescription: [medicalAdvice._id],
             statusReport: statusReport
