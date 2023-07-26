@@ -64,15 +64,15 @@ let deleteUser = async (req, res) => {
 
 let getAllUsers = async (req, res) => {
     try {
-        let patients = await trackRecordsModel.find({
+        let recordsForThisHospital = await trackRecordsModel.find({
             hospital: req._id
         }).select({ "patient": 1, "_id": 0 });
 
-        console.log(patients)
+        let queryArray= recordsForThisHospital.map(obj=>obj.patient)
 
         let users = await userModel.find({
             _id: {
-                $in: patients.patient
+                $in: queryArray
             }
         });
 
