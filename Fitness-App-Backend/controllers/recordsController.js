@@ -2,7 +2,9 @@ let prescriptionModel = require("../models/prescriptionModel");
 let recordsModel = require("../models/trackRecords");
 let appointmentModel = require("../models/appointmentModel");
 let doctorModel = require("../models/doctorModel");
-let hospitalModel= require("../models/hospitalModel")
+let hospitalModel = require("../models/hospitalModel");
+let symptomsModel = require("../models/symptomsModel");
+let userModel = require("../models/userModel");
 
 let createRecord = async (req, res) => {
     try {
@@ -30,19 +32,44 @@ let createRecord = async (req, res) => {
             patient: booking.appointment.toString()
         })
 
-        let medicalAdvice = await prescriptionModel.create({
+        let temp = {
             prescription: prescription,
             dosage: dosage,
             prescribedDoctor: doctorId
+        }
+
+        let medicalAdvice = await prescriptionModel.create(temp)
+
+        // fetch the displayable data for the UI
+
+        // get doctor name
+        let doc = await doctorModel.findOne({
+                _id:doctorId
         })
+        let doctor = doc.firstName + " " + doc.lastName
+
+        // get symptoms
+        let sym = await symptomsModel.findOne({
+            _id:booking.symptoms
+        })
+
+        // get patients name
+        let pat = await userModel.findOne({
+             _id:booking.appointment
+        })
+        
+        let mariege= pat.firstName + " " + pat.lastName
 
         // if there is another appointment for the same patient then ....
         
         if (record && record.hospital.toString() == req._id) {
 
             record.doctorAttended.push(doctorId);
+            record.doctorsName.push(doctor);
             record.symptoms.push(booking.symptoms);
+            record.symptomsList.push(sym)
             record.prescription.push(medicalAdvice._id);
+            record.prescriptionList.push(temp)
             record.statusReport = statusReport;
 
             await record.save();
@@ -51,10 +78,15 @@ let createRecord = async (req, res) => {
 
         let createObject = {
             patient: booking.appointment.toString(),
+            patientName: mariege,
             hospital: req._id,
+            hospitalName: hospital.hospitalName,
             doctorAttended: [doctorId],
+            doctorsName: [doctor],
             symptoms: [booking.symptoms],
+            symptomsList: [sym],
             prescription: [medicalAdvice._id],
+            prescriptionList:[temp],
             statusReport: statusReport
 
         }
