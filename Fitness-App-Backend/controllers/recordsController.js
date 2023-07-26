@@ -33,14 +33,6 @@ let createRecord = async (req, res) => {
             hospital:req._id
         })
 
-        let temp = {
-            prescription: prescription,
-            dosage: dosage,
-            prescribedDoctor: doctorId
-        }
-
-        let medicalAdvice = await prescriptionModel.create(temp)
-
         // fetch the displayable data for the UI
 
         // get doctor name
@@ -59,7 +51,17 @@ let createRecord = async (req, res) => {
              _id:booking.appointment
         })
         
-        let mariege= pat.firstName + " " + pat.lastName
+        let mariege = pat.firstName + " " + pat.lastName
+        
+
+        // create prescription document object
+        let temp = {
+            prescription: prescription,
+            dosage: dosage,
+            prescribedDoctor: doctorId
+        }
+
+        let medicalAdvice = await prescriptionModel.create(temp)
 
         // if there is another appointment for the same patient then ....
         
@@ -104,6 +106,10 @@ let createRecord = async (req, res) => {
                 ...createObject,
                 createdAt: createRecord.createdAt,
                  updatedAt:createRecord.updatedAt
+            })
+        } else {
+            await prescriptionModel.deleteOne({
+                _id:medicalAdvice._id
             })
         }
 
