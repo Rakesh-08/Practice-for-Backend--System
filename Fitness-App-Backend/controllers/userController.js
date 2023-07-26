@@ -68,11 +68,15 @@ let getAllUsers = async (req, res) => {
             hospital: req._id
         }).select({ "patient": 1, "_id": 0 });
 
+        console.log(patients)
+
         let users = await userModel.find({
             _id: {
-                $in:patients.patient
+                $in: patients.patient
             }
-        })
+        });
+
+        console.log(users)
 
         if (users.length > 0) {
             res.status(200).send(passwordLessUser(users))
