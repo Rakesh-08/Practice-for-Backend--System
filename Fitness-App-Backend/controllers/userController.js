@@ -76,8 +76,6 @@ let getAllUsers = async (req, res) => {
             }
         });
 
-        console.log(users)
-
         if (users.length > 0) {
             res.status(200).send(passwordLessUser(users))
         } else {
