@@ -29,7 +29,8 @@ let createRecord = async (req, res) => {
           
   
         let record = await recordsModel.findOne({
-            patient: booking.appointment.toString()
+            patient: booking.appointment.toString(),
+            hospital:req._id
         })
 
         let temp = {
