@@ -62,9 +62,12 @@ let createRecord = async (req, res) => {
         let createRecord = await recordsModel.create(createObject)
 
         if (createRecord) {
-
+            console.log(booking.status)
+            
             booking.status = 'VISITED';
             await booking.save();
+ 
+            console.log(booking.status)
 
             res.status(200).send({
                 _id:createRecord._id,
