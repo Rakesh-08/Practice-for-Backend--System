@@ -1,6 +1,7 @@
 .authBox{
-    background-color: whitesmoke;
-   min-width: 28vw;
+    background-color: rgb(252, 252, 252);
+   min-width: 25vw;
+   max-width: 44vh;
     border-radius: 5%;
     border:2px solid black;
     padding:2em;

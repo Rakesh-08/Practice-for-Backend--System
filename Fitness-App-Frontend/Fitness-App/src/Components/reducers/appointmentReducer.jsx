@@ -4,7 +4,8 @@ let init = {
     hospitalName: "",
     appointmentDate: "",
     appointmentTiming: "",
-    status:""
+    status: "",
+    _id:""
     
 }
 

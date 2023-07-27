@@ -131,8 +131,11 @@ export default function LoginSignup({ labels ,signUpToggle }) {
     
     return (
       <div className="bg-dark min-vh-100 d-flex justify-content-around align-items-center">
-        <div >
-          <h1 className=" m-2 p-2 text-white display-6 text-uppercase lead "> welcome to </h1>
+        <div className="w-50  p-2" >
+          <h1 className=" m-2 p-2 text-white display-6 text-uppercase lead "> welcome to <span className="text-info">fit-india</span></h1>
+          <div className="text-center" >
+            <img  className="w-25 rounded-pill"  src="https://static.vecteezy.com/system/resources/previews/007/469/098/original/running-man-in-modern-style-illustration-healthy-person-simple-flat-shadow-isolated-on-white-background-vector.jpg" alt="coverpic"/>
+          </div>
         </div>
         <div className="authBox">
           <h4 style={{ fontStyle: "italic" }} className="text-center my-2 ">
@@ -292,7 +295,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
                 </button>
               )}
 
-              <p>
+              <p className="text-primary">
                 {showSignup
                   ? " Already have an account ?"
                   : "Don't have an account ?"}{" "}
@@ -301,7 +304,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
                     setShowSignup(!showSignup);
                     setSignupInfo(defaultSignup);
                   }}
-                  className="border-0 link"
+                  className="border-0 bg-transparent link"
                 >
                   {showSignup ? "login" : "Sign up"}
                 </button>
@@ -310,11 +313,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
             </div>
           </div>
         </div>
-        <div>
-          <h1 className="text-success display-5  lead fw-bold  text-uppercase">
-            fit-india
-          </h1>
-        </div>
+       
       </div>
     );
 }

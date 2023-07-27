@@ -12,6 +12,7 @@ let Apis = {
   postDoctor: "/fitnessApp/api/v1/doctor",
   getAllDoctors: "/fitnessApp/api/v1/doctors",
   getAllPatients: "/fitnessApp/api/v1/users",
+  postRecord: "/fitnessApp/api/v1/records",
 };
 
 export default Apis

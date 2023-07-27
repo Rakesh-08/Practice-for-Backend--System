@@ -2,12 +2,12 @@ import { Modal } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { editAppointment } from "./API-calls/appointmentApi";
 
-export default function UpdateAppointmentModal({fetchAppointments}) {
+export default function UpdateAppointmentModal({fetchAppointments,patientUser}) {
 
     let dispatch = useDispatch()
-  let { UpdateAppointment } = useSelector((state) => state);
- 
-
+  let UpdateAppointment = useSelector((state) => state.UpdateAppointment);
+  
+  
   let handleAppointmentUpdate = (e) => {
     e.preventDefault();
 
@@ -16,6 +16,20 @@ export default function UpdateAppointmentModal({fetchAppointments}) {
       status: UpdateAppointment.status,
       shift: UpdateAppointment.appointmentTiming
     }
+           
+    if (UpdateAppointment.status == "VISITED" ) {
+                
+      let askMe = window.confirm("Have you created user record before marking it as visited ?")
+      if (!askMe) {
+         dispatch({
+           type: "setShowUpdate",
+           payload: false,
+         });
+
+        return alert("please add the user record first,then only update the status to visited")
+      }
+    }
+
     
     editAppointment(UpdateAppointment._id, temp).then((response) => {
       alert(`appointment with id ${response.data._id} has been updated`)
@@ -139,7 +153,7 @@ export default function UpdateAppointmentModal({fetchAppointments}) {
                     className="form-control "
                   >
                     <option value="OPEN">OPEN</option>
-                    <option disabled={!UpdateAppointment.hospitalName} value="VISITED">VISITED</option>
+                    <option disabled={patientUser} value="VISITED">VISITED</option>
                     <option value="CANCELLED">CANCELLED</option>
                   </select>
                 </div>

@@ -42,12 +42,12 @@ export default function Navbar() {
   }
     return (
       <div
-        className="d-flex   justify-content-between p-3"
+        className="d-flex shadow  justify-content-between p-3"
         style={{
           backgroundColor: "white",
           height: "10vh",
-          width:"100%",
-          border: "1px solid grey",
+          width:"100vw",
+          
         }}
       >
         <div style={{ flex: "0.4" }} className="mx-5 px-5 ">

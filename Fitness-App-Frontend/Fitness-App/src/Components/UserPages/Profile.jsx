@@ -8,10 +8,13 @@ import {
   removeAppointment,
 } from "../API-calls/appointmentApi";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CreateIcon from "@mui/icons-material/Create";
+import EmailIcon from "@mui/icons-material/email"
 import UpdateAppointmentModal from "../updateAppointmentComponent";
 import { getDoctors, postDoctorRecord } from "../API-calls/doctorsApi";
 import { getPatients } from "../API-calls/patients";
 import Records from "../recordHistory";
+import { getrecords } from "../API-calls/recordApi";
 
 
 let emptyForm = {
@@ -31,15 +34,20 @@ export default function Profile() {
   let [addDoctor, setAddDoctor] = useState(emptyForm);
   let [patients, setPatients] = useState([]);
   let [doctors, setDoctors] = useState([])
-  let [records,setRecords]= useState([])
+  let [records, setRecords] = useState([])
+  let [recordModal, setRecordModal] = useState(false);
   let dispatch = useDispatch();
 
   let { ProfileInfo: user, UpdateAppointment } = useSelector((state) => state);
 
   useEffect(() => {
     fetchAllAppointments();
-    fetchUsers();
+    LoggedAsHospital && fetchUsers();
+      fetchRecords();
   }, []);
+
+  
+  let patientUser = localStorage.getItem("firstName");
    
      let LoggedAsHospital= localStorage.getItem("hospitalName")
   // set differnt status for the appointments
@@ -49,6 +57,10 @@ export default function Profile() {
       VISITED: 0,
       CANCELLED: 0,
     };
+    if (!data) {
+      setStatus(temp)
+      return
+    }
     for (let i = 0; i < data.length; i++) {
       temp[data[i].status] += 1;
     }
@@ -59,10 +71,14 @@ export default function Profile() {
   let fetchAllAppointments = () => {
     getAllAppointments()
       .then((response) => {
-        setAppointments(response.data);
+        if (response.data.length > 0) {
+           setAppointments(response.data)
         AppointmentStatus(response.data);
+        }
+       
       })
       .catch((err) => {
+        AppointmentStatus();
         console.log(err);
       });
   };
@@ -91,6 +107,15 @@ export default function Profile() {
     
   }
 
+  //get all track history of patients
+  let fetchRecords = () => {
+    
+    getrecords().then(response => {
+      setRecords(response.data)
+    
+      }).catch(err=>console.log(err))
+  }
+
   // fetch patients and doctors data;
 
   let fetchUsers = () => {
@@ -99,9 +124,12 @@ export default function Profile() {
   }
   let fetchPatients = () => {
     getPatients().then((response) => {
+    
       if (response.data.length > 0) {
-          setPatients(response.data)
-        }
+           setPatients(response.data)
+      } else if (!response.data.message) {
+           setPatients([response.data])
+      }
     }).catch(err=>console.log(err))
     
   }
@@ -109,15 +137,48 @@ export default function Profile() {
   let fetchDoctors = () => {
      getDoctors()
        .then((response) => {
-        setDoctors(response.data)
+         if (response.data.length > 0) {
+           setDoctors(response.data)
+         }
+        
        })
        .catch((err) => console.log(err));
     
   }
 
+  //toggle between hospital name and patient name
+
+  let createRecordAction = null;
+  let name = null;
+
+  if (LoggedAsHospital) {
+    name={
+      title: "Patient Name",
+        field: "patient",
+    }
+    createRecordAction = {
+      icon: CreateIcon,
+      tooltip: "add record",
+      onClick: (e,rowdata) => {
+        dispatch({
+          type: "onChange",
+          payload: {
+            key: "_id",
+            value:rowdata._id
+          }
+        })
+        setRecordModal(true)
+      }
+    }
+  } else {
+    name = { title: "Hospital Name", field: "hospitalName" };
+  }
+   
+
   let columns = [
     { title: "ID", field: "_id" },
-    { title: "Hospital Name", field: "hospitalName" },
+    name
+   ,
     { title: "Department", field: "department" },
     {
       title: "Date of Appointment",
@@ -138,32 +199,42 @@ export default function Profile() {
     { title: "Phone", field: "phone" },
   ];
 
-  let conditional =
-    nav == "patients"
-      ? null
+  let conditional = nav == "patients" ? null
       : usersColumn.push(
           { title: "DEPARTMENT", field: "department" },
           { title: "Experience (In years)", field: "experience" }
-        );
+    );
+  
 
   return (
     <div>
-      <div className=" d-flex mb-5 vh-100">
-        <div style={{ flex: "0.3" }} className="bg-light border shadow">
+      <div className="d-flex mb-5 ">
+        <div style={{ flex: "0.3" }} className="bg-light border shadow min-vh-100">
           <div className="mx-4">
             <div className=" m-4 position-relative">
-              <img
-                className="mb-2 p-2"
-                style={{ height: "10em", borderRadius: "50%" }}
-                src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000"
-                alt="profile"
-              />{" "}
+              <label htmlFor="profilePic">
+                <img
+                  className="mb-2 p-2"
+                  style={{
+                    height: "10em",
+                    borderRadius: "50%",
+                    cursor: "pointer",
+                  }}
+                  src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000"
+                  alt="profile"
+                />
+              </label>
+              <input
+                style={{ display: "none", visibility: "none" }}
+                type="file"
+                id="profilePic"
+              ></input>
               <p
                 className="bg-warning rounded-2 p-1"
                 style={{ position: "absolute", bottom: "0" }}
               >
                 {" "}
-                {user.userId}
+                {user?.userId}
               </p>
             </div>
             <hr />
@@ -181,7 +252,12 @@ export default function Profile() {
             </p>
           </div>
         </div>
-        <div style={{ flex: "0.7" }}>
+        <div
+          style={{
+            flex: "0.7",
+            width: "70%",
+          }}
+        >
           <h2 className="m-3 p-2 fs-5 fst-italic text-danger">Appointments-</h2>
 
           <div className="d-flex m-2 p-2  justify-content-around">
@@ -189,7 +265,7 @@ export default function Profile() {
             <InfoBox title="VISITED" count={status.VISITED} color="purple" />
             <InfoBox title="CANCELLED" count={status.CANCELLED} color="grey" />
           </div>
-          <hr className="mx-auto text-warning  w-75" />
+
           <div className="m-2 p-4">
             {showTable ? (
               <div>
@@ -199,36 +275,45 @@ export default function Profile() {
                 >
                   Hide
                 </button>
-                <MaterialTable
-                  title="All of your appointments"
-                  columns={columns}
-                  data={appointments}
-                  actions={[
-                    {
-                      icon: DeleteIcon,
-                      tooltip: "delete",
-                      onClick: (e, rowData) => {
-                        deleteAppointment(rowData._id);
+                <div className="p-1 bg-warning">
+                  {" "}
+                  <MaterialTable
+                    title="All of your appointments"
+                    columns={columns}
+                    data={appointments}
+                    actions={[
+                      createRecordAction,
+                      {
+                        icon: DeleteIcon,
+                        tooltip: "delete",
+                        onClick: (e, rowData) => {
+                          deleteAppointment(rowData._id);
+                        },
                       },
-                    },
-                  ]}
-                  onRowClick={(e, rowData) => {
-                    dispatch({
-                      type: "currentRow",
-                      payload: {
-                        showUpdate: true,
-                        hospitalName: rowData.hospitalName,
-                        appointmentDate: rowData.appointmentDate,
-                        appointmentTiming: rowData.shift,
-                        status: rowData.status,
-                        _id: rowData._id,
-                      },
-                    });
-                  }}
-                  options={{
-                    actionsColumnIndex: -1,
-                  }}
-                ></MaterialTable>
+                    ]}
+                    onRowClick={(e, rowData) => {
+                      if (patientUser && rowData.status == "VISITED") {
+                        return alert(
+                          "You are not allowed change the appointment details after visiting the hospital"
+                        );
+                      }
+                      dispatch({
+                        type: "currentRow",
+                        payload: {
+                          showUpdate: true,
+                          hospitalName: rowData.hospitalName,
+                          appointmentDate: rowData.appointmentDate,
+                          appointmentTiming: rowData.shift,
+                          status: rowData.status,
+                          _id: rowData._id,
+                        },
+                      });
+                    }}
+                    options={{
+                      actionsColumnIndex: -1,
+                    }}
+                  ></MaterialTable>
+                </div>
               </div>
             ) : (
               <>
@@ -352,7 +437,7 @@ export default function Profile() {
                             onClick={() => setAddDoctor(emptyForm)}
                             className="btn btn-danger m-1"
                           >
-                            cancel
+                            clear
                           </button>
                           <button className="btn btn-secondary m-1">
                             Add Data
@@ -367,49 +452,135 @@ export default function Profile() {
           </div>
 
           <div>
-            <UpdateAppointmentModal fetchAppointments={fetchAllAppointments} />
+            <UpdateAppointmentModal
+              fetchAppointments={fetchAllAppointments}
+              patientUser={patientUser}
+            />
           </div>
           <div>
-               <Records/>
+            <Records
+              doctors={doctors}
+              setting={{ recordModal, setRecordModal }}
+            />
           </div>
         </div>
       </div>
 
-      {LoggedAsHospital && <div className="vh-100 p-5">
-        <div className=" border-bottom p-2 m-2">
-          <button
-            onClick={()=>setNav("patients")}
-            className={`${
-              nav == "patients" && "border-bottom border-primary "
-            } bg-transparent border-0 fs-5 mx-3 `}
-          >
-            Patients
-          </button>
-          <button
-            onClick={()=>setNav("doctors")}
-            className={`${
-              nav == "doctors" && "border-bottom border-primary "
-            } bg-transparent border-0 fs-5`}
-          >
-            Doctors
-          </button>
+      {LoggedAsHospital && (
+        <div className="p-5">
+          <div className=" border-bottom p-2 m-2">
+            <button
+              onClick={() => setNav("patients")}
+              className={`${
+                nav == "patients" && "border-bottom border-primary "
+              } bg-transparent border-0 fs-5 mx-3 `}
+            >
+              Patients
+            </button>
+            <button
+              onClick={() => setNav("doctors")}
+              className={`${
+                nav == "doctors" && "border-bottom border-primary "
+              } bg-transparent border-0 fs-5`}
+            >
+              Doctors
+            </button>
+          </div>
+          <div className="my-3">
+            <MaterialTable
+              title={`List of ${nav}`}
+              columns={usersColumn}
+              data={nav == "patients" ? patients : doctors}
+              onRowClick={(e, rowData) => {}}
+              actions={[
+                {
+                  icon: EmailIcon,
+                  tooltip: "send Email",
+                  onClick: (e, rowData) => {},
+                },
+              ]}
+              options={{
+                headerStyle: {
+                  backgroundColor: "#055555",
+                  color: "#FFF",
+                },
+              }}
+            ></MaterialTable>
+          </div>
         </div>
-        <div className="my-3">
-          <MaterialTable
-            title={`List of ${nav}`}
-            columns={usersColumn}
-            data={nav == "patients" ? patients : doctors}
-            onRowClick={(e, rowData) => {
-                   
-            }}
-            options={{
-              headerStyle: {
-                backgroundColor: "#055555",
-                color: "#FFF",
-              },
-            }}
-          ></MaterialTable>
-        </div>
+      )}
+   
+      
+      {records.length>0 &&<div className="m-3 p-3">
+        <h2 className="text-center lead fs-4 m-2 p-2">Medical Record</h2>
+        <div className="bg-light" >
+          {records.map((record) => {
+          return (
+            <div
+              key={record._id}
+              className="bg-dark text-white rounded shadow my-3 p-4"
+            >
+              <p className="text-info">
+                Record Id-<span className=" fst-italic mx-2">{record._id}</span>{" "}
+              </p>
+              <div className="d-flex justify-content-end m-2 ">
+                <p className="mx-3">
+                  Patient :{" "}
+                  <span className="recordData">
+                    {record.patientName}
+                  </span>
+                </p>
+                <p className="mx-3">
+                  Hospital :{" "}
+                  <span className="recordData">
+                    {record.hospitalName}
+                  </span>{" "}
+                </p>
+              </div>
+              <div className="m-3 p-2">
+                {record.prescriptionList.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <h5 className="lead  m-2">Visit {index + 1}</h5>
+                      <p>
+                        Doctor :
+                        <span className="recordData">
+                          {record.doctorsName[index]}
+                        </span>
+                      </p>
+                      <p>
+                        Symptoms :
+                        <span className="recordData">
+                          {" "}
+                          {record.symptomsList[index].symptomsInfo}
+                        </span>
+                      </p>
+                      <div className="d-flex">
+                        <p>
+                          Prescription :
+                          <span className="recordData">
+                            {" "}
+                            {item.prescription}
+                          </span>
+                        </p>
+                        <p className="mx-4">
+                          Dosage :{" "}
+                          <span className="recordData"> {item.dosage}</span>
+                        </p>
+                      </div>
+                      <h5 className="my-2">
+                        Report - <span className="lead fst-italic"> {record.statusReport}</span>
+                       
+                      </h5>
+                    </div>
+                  );
+                })}
+              </div >
+             
+            </div>
+          );
+        })}</div>
+       
       </div>}
       
     </div>

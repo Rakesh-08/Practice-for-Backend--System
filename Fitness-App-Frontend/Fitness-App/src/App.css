@@ -47,3 +47,9 @@ form label{
     font-variant: small-caps;
     font-size:larger;
 }
+
+.recordData{
+    font-style: italic;
+    margin-inline: 0.3em;
+    color:rgb(231, 170, 15)
+}
