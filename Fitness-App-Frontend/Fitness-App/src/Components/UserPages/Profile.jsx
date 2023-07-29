@@ -9,7 +9,7 @@ import {
 } from "../API-calls/appointmentApi";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
-import EmailIcon from "@mui/icons-material/email"
+import EmailIcon from "@mui/icons-material/Email";
 import UpdateAppointmentModal from "../updateAppointmentComponent";
 import { getDoctors, postDoctorRecord } from "../API-calls/doctorsApi";
 import { getPatients } from "../API-calls/patients";
