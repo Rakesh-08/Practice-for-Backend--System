@@ -9,7 +9,7 @@ import {
 } from "../API-calls/appointmentApi";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
-import EmailIcon from "@mui/icons-material/Email";
+import MailIcon from "@mui/icons-material/Mail";
 import UpdateAppointmentModal from "../updateAppointmentComponent";
 import { getDoctors, postDoctorRecord } from "../API-calls/doctorsApi";
 import { getPatients } from "../API-calls/patients";
@@ -241,14 +241,14 @@ export default function Profile() {
           </div>
           <div className="m-2  text-center">
             <h3 className="p-3 bg-success text-light">
-              {user.firstName} {user.lastName} {user.hospitalName}
+              {user?.firstName} {user?.lastName} {user?.hospitalName}
             </h3>
-            <h4 className="m-2 p-2 ">{user.hospitalAddress}</h4>
+            <h4 className="m-2 p-2 ">{user?.hospitalAddress}</h4>
             <h5 className="text-primary my-3  ">
-              {user.email || user.hospitalEmail}
+              {user?.email || user?.hospitalEmail}
             </h5>
             <p>
-              <PhoneIcon /> {user.phone || user.hospitalPhone}
+              <PhoneIcon /> {user?.phone || user?.hospitalPhone}
             </p>
           </div>
         </div>
@@ -494,7 +494,7 @@ export default function Profile() {
               onRowClick={(e, rowData) => {}}
               actions={[
                 {
-                  icon: EmailIcon,
+                  icon: MailIcon,
                   tooltip: "send Email",
                   onClick: (e, rowData) => {},
                 },
