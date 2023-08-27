@@ -1,14 +1,20 @@
 import { useNavigate } from "react-router-dom";
-
+import {useEffect} from "react";
 
 export default function AuthError() {
   let errorCode = localStorage.getItem("errorCode")
   let errMsg= localStorage.getItem("errMsg")
   let NavigateTo = useNavigate();
 
-  if (window.location.reload) {
-   NavigateTo("/")
-  }
+    useEffect(() => { 
+        if (!localStorage.getItem("firstLoad")) {
+            localStorage.setItem("firstLoad",1)
+        } else {
+            localStorage.removeItem("firstLoad");
+            NavigateTo("/Login")
+        }
+       
+    }, [])
 
     return (
       <div className="vh-100 d-flex justify-content-center" style={{backgroundColor:"whitesmoke"}}>
