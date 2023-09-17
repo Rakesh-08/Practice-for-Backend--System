@@ -42,21 +42,18 @@ export default function Navbar() {
   }
     return (
       <div
-        className="d-flex shadow  justify-content-between p-3"
+        className="d-flex bg-white shadow  justify-content-between p-3"
         style={{
-          backgroundColor: "white",
-          height: "10vh",
-          width:"100vw",
-          
+          height: "11vh" 
         }}
       >
-        <div style={{ flex: "0.4" }} className="mx-5 px-5 ">
+        <div style={{ flex: "0.3" }} className="mx-3 px-2">
           <h4 style={{ letterSpacing: "0.4em" }}>
             FIT <span className="bg-info px-1">INDIA</span>
           </h4>
         </div>
         <div
-          style={{ flex: "0.6" }}
+          style={{ flex: "0.7" }}
           className=" d-flex justify-content-around "
         >
           <Navitem className="fas fa-home fs-4" title="Home" route="/Home" />
@@ -76,7 +73,7 @@ export default function Navbar() {
           />
 
           {localStorage.getItem("accessToken") ? (
-            <div  className='ps-5'>
+            <div  className='ps-1'>
               <button onClick={logoutFn} className="btn btn-sm btn-danger shadow ">
                 Log out
                  </button>

@@ -130,7 +130,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
     
     
     return (
-      <div className="bg-dark min-vh-100 d-flex justify-content-around align-items-center">
+      <div className="bg-dark min-vh-100 d-flex flex-wrap justify-content-around align-items-center">
         <div className="w-50  p-2" >
           <h1 className=" m-2 p-2 text-white display-6 text-uppercase lead "> welcome to <span className="text-info">fit-india</span></h1>
           <div className="text-center" >
@@ -142,7 +142,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
             {" "}
             {showSignup ? labels.signupTitle : "Login"}
           </h4>
-          <div className="p-4">
+          <div className="p-3">
             <form onSubmit={showSignup ? signupFn : loginFn}>
               {showSignup && (
                 <>
@@ -204,7 +204,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
                 <label>userId</label>
               </div>
 
-              <div className="form-floating m-1  d-flex">
+              <div className="form-floating m-1  ">
                 <input
                   style={{ height: "3.4em" }}
                   type={passVisibility.type}
@@ -221,7 +221,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
                 <label>password</label>
                 <span
                   onClick={toggleVisibility}
-                  className={`fa ${passVisibility.class}  m-2`}
+                  className={`fa position-absolute top-0  end-0 m-3 ${passVisibility.class} `}
                 ></span>
               </div>
 

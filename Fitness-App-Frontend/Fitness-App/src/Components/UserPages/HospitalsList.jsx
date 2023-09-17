@@ -80,7 +80,7 @@ export default function HospitalList() {
   return (
     <div className="d-flex justify-content-center ">
       <div style={{ flex: "0.3" }}>
-        <div className="ms-5" style={{ position: "sticky", top: "20%" }}>
+        <div className="m-2" style={{ position: "sticky", top: "20%" }}>
           <img
             style={{ width: "20vw" }}
             src="https://www.wordsjustforyou.com/wp-content/uploads/2020/04/Happy-World-Health-Day-Gif_wordsjustforyou_02060420.gif"
@@ -94,13 +94,13 @@ export default function HospitalList() {
       >
         {HospitalList.map((hospital) => {
           return (
-            <div key={hospital._id}>
-              <HospitalCard hospital={hospital} openModal={openModal} />
-            </div>
+            
+              <HospitalCard key={hospital._id} hospital={hospital} openModal={openModal} />
+           
           );
         })}
         {showModal && (
-          <div>
+         
             <Modal
               show={showModal}
               onHide={() => setShowModal(false)}
@@ -257,14 +257,14 @@ export default function HospitalList() {
                 </div>
               </Modal.Body>
             </Modal>
-          </div>
+          
         )}
       </div>
 
       <div style={{ flex: "0.25" }}>
         <div
           className="d-flex flex-column align-items-end"
-          style={{ position: "sticky", top: "80%", marginRight: "1em" }}
+          style={{ position: "fixed",bottom:"2%",right:"2%" }}
         >
           <div>
             <img
@@ -275,7 +275,7 @@ export default function HospitalList() {
               alt="whatsapp"
             />
           </div>
-          <button className="btn btn-sm w-25 btn-primary ">Chat with us</button>
+          <button className="btn btn-sm  btn-primary ">Get help</button>
         </div>
       </div>
     </div>

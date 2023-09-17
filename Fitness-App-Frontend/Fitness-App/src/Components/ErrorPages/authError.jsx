@@ -11,20 +11,21 @@ export default function AuthError() {
             localStorage.setItem("firstLoad",1)
         } else {
             localStorage.removeItem("firstLoad");
-            NavigateTo("/Login")
+            NavigateTo("/")
         }
        
     }, [])
 
     return (
-      <div className="vh-100 d-flex justify-content-center" style={{backgroundColor:"whitesmoke"}}>
-        <div>
+      <div className="vh-100 d-flex justify-content-center align-items-center" style={{backgroundColor:"purple"}}>
+        <div className="m-3">
           <img
+            className="w-100"
             src="https://cdni.iconscout.com/illustration/premium/thumb/system-error-8078360-6477441.png?f=webp"
                     alt="error"
-                    height="600em"
+                    
           />
-          <p className="fs-2 rounded bg-warning lead text-danger border p-3 text-center shadow">{`${errMsg}: ${errorCode}`}</p>
+          <p className="fs-2 rounded bg-warning lead text-danger border p-3 text-center shadow">{`${errorCode}:${errMsg} `}</p>
         </div>
       </div>
     );
