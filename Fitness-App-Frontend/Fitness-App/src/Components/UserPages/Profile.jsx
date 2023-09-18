@@ -28,7 +28,7 @@ let emptyForm = {
 
 export default function Profile() {
   let [appointments, setAppointments] = useState([]);
-  let [showTable, setShowTable] = useState(false);
+  let [showTable, setShowTable] = useState(true);
   let [status, setStatus] = useState({});
   let [nav, setNav] = useState("patients");
   let [addDoctor, setAddDoctor] = useState(emptyForm);
@@ -208,10 +208,10 @@ export default function Profile() {
 
   return (
     <div>
-      <div className="d-flex mb-5 ">
-        <div style={{ flex: "0.3" }} className="bg-light border shadow min-vh-100">
+      <div className="d-flex profile-container mb-5 ">
+        <div style={{minHeight:"70vh"}}className="bg-light border shadow   ">
           <div className="mx-4">
-            <div className=" m-4 position-relative">
+            <div className=" m-2 position-relative">
               <label htmlFor="profilePic">
                 <img
                   className="mb-2 p-2"
@@ -252,21 +252,16 @@ export default function Profile() {
             </p>
           </div>
         </div>
-        <div
-          style={{
-            flex: "0.7",
-            width: "70%",
-          }}
-        >
+        <div className="w-100">
           <h2 className="m-3 p-2 fs-5 fst-italic text-danger">Appointments-</h2>
 
-          <div className="d-flex m-2 p-2  justify-content-around">
+          <div className="d-flex flex-wrap m-2 p-2  justify-content-around">
             <InfoBox title="OPEN" count={status.OPEN} color="blue" />
             <InfoBox title="VISITED" count={status.VISITED} color="purple" />
             <InfoBox title="CANCELLED" count={status.CANCELLED} color="grey" />
           </div>
 
-          <div className="m-2 p-4">
+          <div className="m-2 p-2 ">
             {showTable ? (
               <div>
                 <button
@@ -467,7 +462,7 @@ export default function Profile() {
       </div>
 
       {LoggedAsHospital && (
-        <div className="p-5">
+        <div className="p-3">
           <div className=" border-bottom p-2 m-2">
             <button
               onClick={() => setNav("patients")}
@@ -591,7 +586,7 @@ let InfoBox = ({ title, count, color }) => {
   return (
     <div
       style={{ minWidth: "12vw", backgroundColor: [color] }}
-      className="text-center  p-3 rounded-4"
+      className="text-center m-2 p-3 rounded-4"
     >
       <h4 className="text-white">{title}</h4>
       <p className="fs-4">{count}</p>

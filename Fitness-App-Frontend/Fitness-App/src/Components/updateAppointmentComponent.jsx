@@ -65,20 +65,20 @@ export default function UpdateAppointmentModal({fetchAppointments,patientUser}) 
 
               <form onSubmit={handleAppointmentUpdate}>
                 <div className="m-2  input-group row ">
-                  <label className=" col-4">Hospital Name</label>
+                  <label className=" col-md-4">Hospital Name</label>
                   <input
                     name="hospitalName"
                     value={UpdateAppointment.hospitalName}
-                     readOnly={true}
-                    className=" form-control"
+                    readOnly={true}
+                    className="  form-control"
                   />
                 </div>
 
                 <div className="m-2  input-group row ">
-                  <label className="col-4">Date of Appointment</label>
+                  <label className="col-md-4">Date of Appointment</label>
                   <input
                     name="appointmentDate"
-                    value={UpdateAppointment.appointmentDate.substring(0,10)}
+                    value={UpdateAppointment.appointmentDate.substring(0, 10)}
                     onChange={(e) => {
                       dispatch({
                         type: "onChange",
@@ -94,7 +94,7 @@ export default function UpdateAppointmentModal({fetchAppointments,patientUser}) 
                 </div>
 
                 <div className="m-2  row input-group">
-                  <label className="col-4">Appointment Timing</label>
+                  <label className="col-md-4">Appointment Timing</label>
                   <select
                     name="appointmentTiming"
                     value={UpdateAppointment.appointmentTiming}
@@ -153,28 +153,31 @@ export default function UpdateAppointmentModal({fetchAppointments,patientUser}) 
                     className="form-control "
                   >
                     <option value="OPEN">OPEN</option>
-                    <option disabled={patientUser} value="VISITED">VISITED</option>
+                    <option disabled={patientUser} value="VISITED">
+                      VISITED
+                    </option>
                     <option value="CANCELLED">CANCELLED</option>
                   </select>
                 </div>
                 <div className="d-flex justify-content-end my-2">
                   <button
                     type="button"
-                  onClick={() =>
-                    dispatch({
-                      type: "setShowUpdate",
-                      payload: false,
-                    })
-                  }
-                  className="btn btn-sm btn-secondary m-2"
-                >
-                  {" "}
-                  cancel
-                </button>
-                <button type="submit" className="btn btn-sm btn-success m-2">update</button>
-              </div>
+                    onClick={() =>
+                      dispatch({
+                        type: "setShowUpdate",
+                        payload: false,
+                      })
+                    }
+                    className="btn btn-sm btn-secondary m-2"
+                  >
+                    {" "}
+                    cancel
+                  </button>
+                  <button type="submit" className="btn btn-sm btn-success m-2">
+                    update
+                  </button>
+                </div>
               </form>
-             
             </div>
           </Modal.Body>
         </Modal>

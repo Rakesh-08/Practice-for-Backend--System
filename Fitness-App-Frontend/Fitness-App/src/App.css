@@ -3,8 +3,10 @@
      color:white;
 }
 
-@media screen and (max-width:450px){
-    
+@media screen and (max-width:460px){
+    .profile-container{
+        display: block !important;
+    }
 }
 
 

@@ -77,9 +77,9 @@ export default function HomePage() {
 
       <div className="vh-100">
         <div className="d-flex p-4 my-5 justify-content-around">
-          <div className="m-3">
+          <div className="m-3 d-flex align-items-center ">
             <img
-              style={{ height: "23vw", borderRadius: "20%",backgroundColor:"purple" }}
+              style={{ height: "20vh", borderRadius: "20%",backgroundColor:"purple",margin:""}}
               src="https://cdn.quotesgram.com/img/15/97/2017650680-tumblr_mz791eLFqe1r2zyogo1_500.gif"
               alt="quote"
             />
