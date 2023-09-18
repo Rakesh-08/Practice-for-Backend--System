@@ -3,6 +3,10 @@
      color:white;
 }
 
+*{
+    font-family: sans-serif;
+}
+
 @media screen and (max-width:460px){
     .profile-container{
         display: block !important;

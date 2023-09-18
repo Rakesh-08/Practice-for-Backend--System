@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios"
 import { useSelector, useDispatch } from "react-redux";
 import { Modal } from "react-bootstrap";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -28,7 +29,7 @@ let emptyForm = {
 
 export default function Profile() {
   let [appointments, setAppointments] = useState([]);
-  let [showTable, setShowTable] = useState(true);
+  let [showTable, setShowTable] = useState(false);
   let [status, setStatus] = useState({});
   let [nav, setNav] = useState("patients");
   let [addDoctor, setAddDoctor] = useState(emptyForm);
@@ -36,6 +37,7 @@ export default function Profile() {
   let [doctors, setDoctors] = useState([])
   let [records, setRecords] = useState([])
   let [recordModal, setRecordModal] = useState(false);
+  let [emailModal,setEmailModal]=useState({show:false,subject:"",content:"",receiver:""})
   let dispatch = useDispatch();
 
   let { ProfileInfo: user, UpdateAppointment } = useSelector((state) => state);
@@ -146,6 +148,33 @@ export default function Profile() {
     
   }
 
+  // send email function;
+
+  let sendEmailFn =async (e) => {
+      
+    let temp = {
+      emails: emailModal.receiver,
+      subject: emailModal.subject,
+      content:emailModal.content
+    }
+
+    let sendEmailApi = "https://notification-service-m4gi.onrender.com/notificationService/api/v1/sendEmail";
+
+    try {
+      let response = await axios.post(sendEmailApi, temp)
+      alert(response.data.message)
+
+      setEmailModal({ show: false, subject: "", content: "", receiver: "" })
+     
+    } catch (err) {
+        alert(err)
+    }
+
+     
+   
+   
+  }
+
   //toggle between hospital name and patient name
 
   let createRecordAction = null;
@@ -209,7 +238,10 @@ export default function Profile() {
   return (
     <div>
       <div className="d-flex profile-container mb-5 ">
-        <div style={{minHeight:"70vh"}}className="bg-light border shadow   ">
+        <div
+          style={{ minHeight: "70vh" }}
+          className="bg-light border shadow   "
+        >
           <div className="mx-4">
             <div className=" m-2 position-relative">
               <label htmlFor="profilePic">
@@ -328,8 +360,8 @@ export default function Profile() {
                         Add new doctors record
                       </h2>
                       <form onSubmit={createDoctorRecord}>
-                        <div className="d-flex m-1 row">
-                          <div className="col-3">
+                        <div className="d-flex m-1 ">
+                          <div className="m-2">
                             <label>First Name</label>
                             <input
                               required
@@ -343,7 +375,7 @@ export default function Profile() {
                               }
                             />
                           </div>
-                          <div className="col-3">
+                          <div className="m-2">
                             <label>Last Name</label>
                             <input
                               required
@@ -359,11 +391,12 @@ export default function Profile() {
                           </div>
                         </div>
 
-                        <div className="m-1 mx-2">
+                        <div className="m-1  mx-2">
                           <label>Email</label>
                           <input
                             required
-                            className="form-control w-25 m-1"
+                            className="form-control m-1"
+                            style={{ width: "12rem" }}
                             value={addDoctor.email}
                             onChange={(e) =>
                               setAddDoctor({
@@ -377,7 +410,8 @@ export default function Profile() {
                           <label>Mobile</label>
                           <input
                             required
-                            className="form-control w-25 m-1"
+                            className="form-control m-1"
+                            style={{ width: "12rem" }}
                             value={addDoctor.phone}
                             onChange={(e) =>
                               setAddDoctor({
@@ -387,8 +421,8 @@ export default function Profile() {
                             }
                           />
                         </div>
-                        <div className="d-flex m-1   row">
-                          <div className="col-3">
+                        <div className="d-flex flex-wrap m-1 ">
+                          <div className="m-2">
                             <label>Department</label>
                             <select
                               required
@@ -410,7 +444,7 @@ export default function Profile() {
                               <option value="G">G</option>
                             </select>
                           </div>
-                          <div className="col-3">
+                          <div className="m-2">
                             <label>Experience</label>
                             <input
                               required
@@ -491,7 +525,13 @@ export default function Profile() {
                 {
                   icon: MailIcon,
                   tooltip: "send Email",
-                  onClick: (e, rowData) => {},
+                  onClick: (e, rowData) => {
+                    setEmailModal({
+                      ...emailModal,
+                      show: true,
+                      receiver: rowData.email,
+                    });
+                  },
                 },
               ]}
               options={{
@@ -504,80 +544,117 @@ export default function Profile() {
           </div>
         </div>
       )}
-   
-      
-      {records.length>0 &&<div className="m-3 p-3">
-        <h2 className="text-center lead fs-4 m-2 p-2">Medical Record</h2>
-        <div className="bg-light" >
-          {records.map((record) => {
-          return (
-            <div
-              key={record._id}
-              className="bg-dark text-white rounded shadow my-3 p-4"
-            >
-              <p className="text-info">
-                Record Id-<span className=" fst-italic mx-2">{record._id}</span>{" "}
-              </p>
-              <div className="d-flex justify-content-end m-2 ">
-                <p className="mx-3">
-                  Patient :{" "}
-                  <span className="recordData">
-                    {record.patientName}
-                  </span>
-                </p>
-                <p className="mx-3">
-                  Hospital :{" "}
-                  <span className="recordData">
-                    {record.hospitalName}
-                  </span>{" "}
-                </p>
+
+      {records.length > 0 && (
+        <div className="m-3 p-3">
+          <h2 className="text-center lead fs-4 m-2 p-2">Medical Record</h2>
+          <div className="bg-light">
+            {records.map((record) => {
+              return (
+                <div
+                  key={record._id}
+                  className="bg-dark text-white rounded shadow my-3 p-4"
+                >
+                  <p className="text-info">
+                    Record Id-
+                    <span className=" fst-italic mx-2">{record._id}</span>{" "}
+                  </p>
+                  <div className="d-flex justify-content-end m-2 ">
+                    <p className="mx-3">
+                      Patient :{" "}
+                      <span className="recordData">{record.patientName}</span>
+                    </p>
+                    <p className="mx-3">
+                      Hospital :{" "}
+                      <span className="recordData">{record.hospitalName}</span>{" "}
+                    </p>
+                  </div>
+                  <div className="m-3 p-2">
+                    {record.prescriptionList.map((item, index) => {
+                      return (
+                        <div key={index}>
+                          <h5 className="lead  m-2">Visit {index + 1}</h5>
+                          <p>
+                            Doctor :
+                            <span className="recordData">
+                              {record.doctorsName[index]}
+                            </span>
+                          </p>
+                          <p>
+                            Symptoms :
+                            <span className="recordData">
+                              {" "}
+                              {record.symptomsList[index].symptomsInfo}
+                            </span>
+                          </p>
+                          <div className="d-flex">
+                            <p>
+                              Prescription :
+                              <span className="recordData">
+                                {" "}
+                                {item.prescription}
+                              </span>
+                            </p>
+                            <p className="mx-4">
+                              Dosage :{" "}
+                              <span className="recordData"> {item.dosage}</span>
+                            </p>
+                          </div>
+                          <h5 className="my-2">
+                            Report -{" "}
+                            <span className="lead fst-italic">
+                              {" "}
+                              {record.statusReport}
+                            </span>
+                          </h5>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div>
+        <Modal
+          show={emailModal.show}
+          onHide={() => setEmailModal({ ...emailModal, show: false })}
+          centered
+          backdrop="static"
+        >
+          <Modal.Header className="bg-danger text-white fs-5" closeButton>
+            Send Email
+          </Modal.Header>
+          <Modal.Body>
+            <div >
+              <div className="m-1">
+                <label>To</label>
+                <input disabled value={emailModal.receiver} type="email" className="form-control m-1"/>
               </div>
-              <div className="m-3 p-2">
-                {record.prescriptionList.map((item, index) => {
-                  return (
-                    <div key={index}>
-                      <h5 className="lead  m-2">Visit {index + 1}</h5>
-                      <p>
-                        Doctor :
-                        <span className="recordData">
-                          {record.doctorsName[index]}
-                        </span>
-                      </p>
-                      <p>
-                        Symptoms :
-                        <span className="recordData">
-                          {" "}
-                          {record.symptomsList[index].symptomsInfo}
-                        </span>
-                      </p>
-                      <div className="d-flex">
-                        <p>
-                          Prescription :
-                          <span className="recordData">
-                            {" "}
-                            {item.prescription}
-                          </span>
-                        </p>
-                        <p className="mx-4">
-                          Dosage :{" "}
-                          <span className="recordData"> {item.dosage}</span>
-                        </p>
-                      </div>
-                      <h5 className="my-2">
-                        Report - <span className="lead fst-italic"> {record.statusReport}</span>
-                       
-                      </h5>
-                    </div>
-                  );
-                })}
-              </div >
+              <div> <label>Subject</label>
+                <input value={emailModal.subject} onChange={(e) => {
+                  setEmailModal({...emailModal, subject: e.target.value})
+                }} className="form-control m-2" type="text" name="subject" /></div>
+              <div>
+                <label>Message</label>
+                <textarea value={emailModal.content} onChange={(e) => {
+                  setEmailModal({...emailModal, content: e.target.value})
+                }} className="form-control m-1"></textarea>
+              </div>
+           
+
+              <button onClick={sendEmailFn} className="btn btn-outline-success m-3">
+                send
+              </button>
              
+              
             </div>
-          );
-        })}</div>
-       
-      </div>}
-      
+          </Modal.Body>
+        </Modal>
+      </div>
     </div>
   );
 }
