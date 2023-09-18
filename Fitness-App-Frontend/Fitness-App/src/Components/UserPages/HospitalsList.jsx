@@ -30,6 +30,10 @@ export default function HospitalList() {
   let NavigateTo = useNavigate();
 
   useEffect(() => {
+
+    if (!localStorage.getItem("accessToken")) {
+      NavigateTo("/")
+    }
     fetchAllHospitals();
   },[])
   
@@ -90,7 +94,7 @@ export default function HospitalList() {
       </div>
       <div
         style={{ backgroundColor: "lightgrey", flex: "0.45" }}
-        className="w-50 shadow-lg "
+        className="shadow-lg p-2 m-1"
       >
         {HospitalList.map((hospital) => {
           return (
@@ -261,10 +265,8 @@ export default function HospitalList() {
         )}
       </div>
 
-      <div style={{ flex: "0.25" }}>
-        <div
-          className="d-flex flex-column align-items-end"
-          style={{ position: "fixed",bottom:"2%",right:"2%" }}
+      
+        <div className="help" style={{ position: "fixed",bottom:"2%",right:"2%" ,flex:0.25 }}
         >
           <div>
             <img
@@ -277,7 +279,7 @@ export default function HospitalList() {
           </div>
           <button className="btn btn-sm  btn-primary ">Get help</button>
         </div>
-      </div>
+      
     </div>
   );
 }

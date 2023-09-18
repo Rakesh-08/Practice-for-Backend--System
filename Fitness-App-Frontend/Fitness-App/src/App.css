@@ -11,6 +11,9 @@
     .profile-container{
         display: block !important;
     }
+    .help{
+        left:2%;
+    }
 }
 
 

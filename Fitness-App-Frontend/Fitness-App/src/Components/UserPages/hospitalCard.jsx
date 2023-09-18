@@ -9,9 +9,9 @@ function HospitalCard({ hospital,openModal }) {
           <Card.Img
             variant="top"
             src="https://thumbs.dreamstime.com/b/hospital-building-modern-parking-lot-59693686.jpg"
-            style={{ width: "100%", height: "20vh" }}
+            style={{ width: "100%", height: "22vh" }}
           />
-          <Card.Body className="bg">
+          <Card.Body >
             <Card.Title>{hospital.hospitalName}</Card.Title>
             <Card.Text className="text-secondary">
               {` ${hospital.hospitalAddress} 
@@ -21,7 +21,7 @@ function HospitalCard({ hospital,openModal }) {
               {" "}
               <Button
                 onClick={() => openModal(hospital.hospitalName)}
-                style={{ padding: "3px",fontSize:"81%" }}
+                style={{ padding: "5px",fontSize:"81%" }}
                 variant="primary"
               >
                 Book Appointment

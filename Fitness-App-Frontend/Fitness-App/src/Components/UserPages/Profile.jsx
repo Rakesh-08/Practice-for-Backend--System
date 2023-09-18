@@ -43,6 +43,11 @@ export default function Profile() {
   let { ProfileInfo: user, UpdateAppointment } = useSelector((state) => state);
 
   useEffect(() => {
+
+     if (!localStorage.getItem("accessToken")) {
+       NavigateTo("/");
+    }
+    
     fetchAllAppointments();
     LoggedAsHospital && fetchUsers();
       fetchRecords();
@@ -170,8 +175,6 @@ export default function Profile() {
         alert(err)
     }
 
-     
-   
    
   }
 
@@ -239,12 +242,12 @@ export default function Profile() {
     <div>
       <div className="d-flex profile-container mb-5 ">
         <div
-          style={{ minHeight: "70vh" }}
+          style={{ minHeight: "80vh" }}
           className="bg-light border shadow   "
         >
           <div className="mx-4">
-            <div className=" m-2 position-relative">
-              <label htmlFor="profilePic">
+            <div className="d-flex justify-content-center m-2 position-relative">
+              <label  htmlFor="profilePic">
                 <img
                   className="mb-2 p-2"
                   style={{
@@ -263,7 +266,7 @@ export default function Profile() {
               ></input>
               <p
                 className="bg-warning rounded-2 p-1"
-                style={{ position: "absolute", bottom: "0" }}
+                style={{ position: "absolute", bottom: "0", left:"10%" }}
               >
                 {" "}
                 {user?.userId}
@@ -272,9 +275,9 @@ export default function Profile() {
             <hr />
           </div>
           <div className="m-2  text-center">
-            <h3 className="p-3 bg-success text-light">
+            <h4 className="p-2 bg-success text-light">
               {user?.firstName} {user?.lastName} {user?.hospitalName}
-            </h3>
+            </h4>
             <h4 className="m-2 p-2 ">{user?.hospitalAddress}</h4>
             <h5 className="text-primary my-3  ">
               {user?.email || user?.hospitalEmail}
