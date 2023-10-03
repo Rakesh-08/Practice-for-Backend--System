@@ -1,11 +1,11 @@
 .authBox{
-    background-color: rgb(252, 252, 252);
-   min-width: 25vw;
-   
+        min-width: 25vw;
     border-radius: 5%;
-    border:2px solid black;
-    padding:1em;
-    margin:0.5em;
+    border: 2px solid black;
+    padding: 1em;
+    backdrop-filter: contrast(0.5);
+    background-image: radial-gradient(#050505, transparent);
+    margin: 0.5em;
 }
 
 .link:hover{
