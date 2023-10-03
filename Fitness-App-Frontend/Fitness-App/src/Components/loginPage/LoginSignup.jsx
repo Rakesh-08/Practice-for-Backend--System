@@ -138,7 +138,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
           </div>
         </div>
         <div className="authBox">
-          <h4 style={{ fontStyle: "italic" }} className="text-center my-2 ">
+          <h4 style={{ fontStyle: "italic" }} className="text-center text-white my-2 ">
             {" "}
             {showSignup ? labels.signupTitle : "Login"}
           </h4>
@@ -288,7 +288,7 @@ export default function LoginSignup({ labels ,signUpToggle }) {
                     setHospitalSignUp(!hospitalSignUp);
                     setSignupInfo(defaultSignup);
                   }}
-                  className="border-0  mb-2 fst-italic fs-5 link"
+                  className="border-0 bg-transparent text-white  mb-2 fst-italic fs-5 link"
                 >
                   {" "}
                   {labels.userStatus}
