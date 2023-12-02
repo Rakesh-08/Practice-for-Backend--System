@@ -10,6 +10,16 @@ const authConfig = require("../configs/authConfig");
 let signUp = async (req, res) => {
 
     try {
+  let totalUsers = await userModel.find({});
+
+        if (totalUsers.length > 15) {
+            return res.status(300).send({
+                message:"Sorry! this application has limited capacity and its reached its maximum"
+            })
+        }
+
+        // send email to the admin that somebody has signed up ;
+         
     
         let user = await userModel.create({
             firstName: req.body.firstName,
