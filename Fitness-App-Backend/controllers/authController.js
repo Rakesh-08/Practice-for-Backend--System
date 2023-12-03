@@ -5,6 +5,8 @@ let bcrypt = require("bcryptjs");
 let jwt = require("jsonwebtoken");
 let passwordLessUser=require("../utils/secureResponse");
 const authConfig = require("../configs/authConfig");
+let sendEmailFn=require("../utils/sendEmail");
+const sendEmail = require("../utils/sendEmail");
 
 
 let signUp = async (req, res) => {
@@ -18,9 +20,7 @@ let signUp = async (req, res) => {
             })
         }
 
-        // send email to the admin that somebody has signed up ;
-         
-    
+
         let user = await userModel.create({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -30,6 +30,9 @@ let signUp = async (req, res) => {
             password: bcrypt.hashSync(req.body.password, 8)
         })
 
+        // send email to the admin that somebody has signed up ;
+        sendEmail();
+        
         if (user) {
             res.status(200).send(passwordLessUser([user]))
         }
